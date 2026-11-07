@@ -1,0 +1,59 @@
+{
+  "date": "2026-11-07",
+  "n_papers": 20219,
+  "encoder": "Qwen/Qwen3-Embedding-4B | dim=1024 | 'Instruct: Identify the main research topic of the given scientific abstract on marine plastic pollution\\nQuery:'",
+  "umap": {
+    "n_components": 5,
+    "n_neighbors": 15,
+    "min_dist": 0,
+    "metric": "cosine"
+  },
+  "hdbscan": {
+    "min_cluster_size": 50,
+    "min_samples": 5,
+    "metric": "euclidean",
+    "cluster_selection_epsilon": 0.15,
+    "cluster_selection_method": "eom"
+  },
+  "consensus": {
+    "runs": 30,
+    "threshold": 0.5,
+    "knn": 15,
+    "split_half": {
+      "ari": 0.932,
+      "ami": 0.989,
+      "kappa": 0.9,
+      "jaccard": 0.94
+    }
+  },
+  "fit": {
+    "topics": 55,
+    "outlier_share": 0.1007,
+    "loo_kept": 0.9627,
+    "expected_unmatched": 0.0487
+  },
+  "topic_levels": {
+    "fine": 0,
+    "mid": 150,
+    "coarse": 400
+  },
+  "choice": "bertopic/evaluation/CHOICE.md",
+  "environment": {
+    "python": "3.12.13",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "packages": {
+      "bertopic": "0.17.4",
+      "umap-learn": "0.5.12",
+      "hdbscan": "0.8.44",
+      "scikit-learn": "1.9.1",
+      "scipy": "1.18.1",
+      "numpy": "2.5.4",
+      "pandas": "2.3.3",
+      "sentence-transformers": "6.2.0",
+      "torch": "2.15.0",
+      "transformers": "5.22.2"
+    },
+    "git_commit": "b961af69d0d8567b1260753e6c8246763e9c112f",
+    "git_dirty": true
+  }
+}

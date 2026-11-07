@@ -1,0 +1,72 @@
+old_topic,new_topic,jaccard,shared_papers,share_of_old,share_of_new,centroid_similarity,old_size,new_size,old_split_into,new_merged_from,old_label,new_label
+0,2,0.218,432,0.271,0.526,0.78,1597,821,2,1,"0: microplastics, microplastic, mps, sediment","2: microplastics, mps, microplastic, abundance"
+1,3,0.445,499,0.531,0.733,0.978,940,681,1,1,"1: exposure, effects, mps, microplastics","3: exposure, effects, toxicity, exposed"
+2,4,0.394,393,0.488,0.672,0.931,806,585,2,1,"2: plastic, waste, marine, pollution","4: plastic, waste, marine, pollution"
+3,1,0.449,518,0.666,0.58,0.989,778,893,1,1,"3: fish, microplastics, mps, species","1: fish, species, mps, microplastics"
+4,7,0.43,330,0.484,0.795,0.87,682,415,2,1,"4: microbial, plastic, bacterial, communities","7: microbial, plastisphere, communities, bacterial"
+5,13,0.302,207,0.329,0.787,0.904,629,263,1,1,"5: plastic, species, debris, ingestion","13: plastic, birds, seabirds, species"
+6,,,,,,,337,,1,,"6: microplastics, ocean, mps, microplastic",
+7,11,0.262,147,0.452,0.384,0.912,325,383,1,2,"7: debris, marine debris, marine, items","11: litter, debris, beaches, beach"
+8,12,0.442,167,0.555,0.684,0.972,301,244,1,1,"8: soil, mps, soils, microplastics","12: soil, soils, mps, agricultural"
+9,,,,,,,275,,1,,"9: litter, marine litter, items, marine",
+10,9,0.676,198,0.802,0.811,0.996,247,244,1,1,"10: debris, detection, images, marine","9: detection, debris, marine, underwater"
+11,,,,,,,241,,1,,"11: plastic, debris, plastic debris, litter",
+12,8,0.255,132,0.592,0.309,0.889,223,427,1,1,"12: adsorption, sorption, mps, microplastics","8: adsorption, sorption, mps, metals"
+13,0,0.121,150,0.843,0.124,0.58,178,1208,1,1,"13: model, ocean, drift, debris","0: river, water, microplastics, transport"
+14,16,0.266,68,0.382,0.466,0.946,178,146,1,1,"14: human, microplastics, health, food","16: human, health, food, exposure"
+15,30,0.406,69,0.439,0.841,0.769,157,82,2,1,"15: microfibers, fibers, washing, microfiber","30: microfibers, microfiber, synthetic, washing"
+16,35,0.348,62,0.408,0.705,0.931,152,88,2,1,"16: removal, mps, treatment, wastewater","35: wastewater, wwtps, treatment, sludge"
+17,,,,,,,149,,1,,"17: transport, particles, settling, mp",
+18,25,0.559,99,0.692,0.744,0.97,143,133,1,1,"18: fishing, gear, aldfg, fishing gear","25: fishing, gear, aldfg, fishing gear"
+19,,,,,,,106,,1,,"19: plastic, ocean, surface, plastic debris",
+20,32,0.615,83,0.783,0.741,0.979,106,112,1,1,"20: masks, ppe, face, face masks","32: masks, ppe, covid19, pandemic"
+21,28,0.716,78,0.796,0.876,0.993,98,89,1,1,"21: coral, corals, reef, reefs","28: coral, corals, reef, reefs"
+22,5,0.118,74,0.822,0.121,0.902,90,612,1,1,"22: separation, extraction, microplastics, recovery","5: method, detection, microplastics, methods"
+23,,,,,,,85,,1,,"23: plastic, ocean, waste, plastic pollution",
+24,27,0.685,74,0.937,0.718,0.996,79,103,1,1,"24: atmospheric, airborne, deposition, mps","27: atmospheric, airborne, deposition, mps"
+25,,,,,,,76,,1,,"25: plastic, transport, rivers, plastic transport",
+26,,,,,,,74,,2,,"26: degradation, gasification, weathering, fatigue",
+27,20,0.226,44,0.638,0.259,0.929,69,170,1,1,"27: sos, plastic, pahs, pellets","20: additives, concentrations, leaching, plastic"
+28,21,0.43,58,0.866,0.46,0.91,67,126,1,2,"28: stormwater, road, twp, wear","21: urban, stormwater, road, runoff"
+29,,,,,,,64,,1,,"29: microplastics, aquatic, environmental, microplastic",
+30,,,,,,,63,,1,,"30: nanoplastics, environment, mps, adsorption",
+31,,,,,,,60,,1,,"31: microplastics, marine, research, microplastic",
+32,18,0.107,17,0.283,0.147,0.73,60,116,2,1,"32: seawater, degradation, blends, biodegradable","18: removal, adsorption, efficiency, water"
+33,,,,,,,58,,1,,"33: plastic, plastics, plastic debris, marine",
+34,,,,,,,50,,2,,"34: plastic pollution, plastic, pollution, plastics",
+35,,,,,,,49,,2,,"35: zooplankton, mps, copepods, microplastic",
+36,,,,,,,49,,1,,"36: debris, items, beaches, pellets",
+37,,,,,,,47,,1,,"37: plastic, microplastics, particles, environment",
+,6,,,,,,,432,,1,,"6: degradation, biodegradation, biodegradable, plastic"
+,10,,,,,,,308,,0,,"10: microplastics, aquatic, environment, mps"
+,14,,,,,,,184,,1,,"14: mangrove, seagrass, mangroves, mps"
+,15,,,,,,,220,,1,,"15: plastic, marine, education, awareness"
+,17,,,,,,,189,,1,,"17: zooplankton, ingestion, microplastics, copepods"
+,19,,,,,,,141,,1,,"19: microalgae, growth, effects, cell"
+,22,,,,,,,115,,1,,"22: fish, freshwater, mps, microplastic"
+,23,,,,,,,99,,1,,"23: waste, plastic, pyrolysis, recycling"
+,24,,,,,,,142,,1,,"24: entanglement, species, marine, debris"
+,26,,,,,,,133,,1,,"26: turtles, sea turtles, turtle, sea"
+,29,,,,,,,97,,1,,"29: freshwater, effects, exposure, microplastics"
+,31,,,,,,,96,,1,,"31: arctic, ice, sea ice, sea"
+,33,,,,,,,74,,2,,"33: nps, transport, aggregation, nanoplastics"
+,34,,,,,,,94,,1,,"34: species, debris, rafting, marine"
+,36,,,,,,,61,,1,,"36: collection, debris, marine, device"
+,37,,,,,,,70,,1,,"37: plastic, sediment, cores, anthropocene"
+,38,,,,,,,67,,1,,"38: antarctic, antarctica, southern ocean, southern"
+,39,,,,,,,76,,0,,"39: salt, salts, sea salt, water"
+,40,,,,,,,68,,1,,"40: deepsea, deep, column, water column"
+,41,,,,,,,68,,1,,"41: whales, microplastics, dolphins, species"
+,42,,,,,,,56,,1,,"42: bioturbation, benthic, sediment, effects"
+,43,,,,,,,40,,1,,"43: lakes, plateau, mps, remote"
+,44,,,,,,,53,,2,,"44: litter, seafloor, fishing, debris"
+,45,,,,,,,51,,1,,"45: bioaccumulation, chemicals, exposure, transfer"
+,46,,,,,,,46,,2,,"46: monitoring, data, debris, marine"
+,47,,,,,,,38,,0,,"47: carbon, climate, climate change, change"
+,48,,,,,,,33,,2,,"48: shark, sharks, species, plastic"
+,49,,,,,,,39,,0,,"49: sensor, sensitivity, temperature, salinity"
+,50,,,,,,,24,,1,,"50: river, metals, heavy, sediments"
+,51,,,,,,,38,,1,,"51: coral, reef, reefs, corals"
+,52,,,,,,,28,,1,,"52: citizen, citizen science, science, data"
+,53,,,,,,,30,,0,,"53: research, publications, bibliometric, analysis"
+,54,,,,,,,14,,1,,"54: paint, antifouling, paint particles, apps"

@@ -1,0 +1,56 @@
+topic,label,label_source,added_in,added_on,source_model,source_cluster
+0,"river, water, microplastics, transport",keywords,v2.0,2026-11-07,base,0
+1,"fish, species, mps, microplastics",keywords,v2.0,2026-11-07,base,1
+2,"microplastics, mps, microplastic, abundance",keywords,v2.0,2026-11-07,base,2
+3,"exposure, effects, toxicity, exposed",keywords,v2.0,2026-11-07,base,3
+4,"plastic, waste, marine, pollution",keywords,v2.0,2026-11-07,base,4
+5,"method, detection, microplastics, methods",keywords,v2.0,2026-11-07,base,5
+6,"degradation, biodegradation, biodegradable, plastic",keywords,v2.0,2026-11-07,base,6
+7,"microbial, plastisphere, communities, bacterial",keywords,v2.0,2026-11-07,base,7
+8,"adsorption, sorption, mps, metals",keywords,v2.0,2026-11-07,base,8
+9,"detection, debris, marine, underwater",keywords,v2.0,2026-11-07,base,9
+10,"microplastics, aquatic, environment, mps",keywords,v2.0,2026-11-07,base,10
+11,"litter, debris, beaches, beach",keywords,v2.0,2026-11-07,base,11
+12,"soil, soils, mps, agricultural",keywords,v2.0,2026-11-07,base,12
+13,"plastic, birds, seabirds, species",keywords,v2.0,2026-11-07,base,13
+14,"mangrove, seagrass, mangroves, mps",keywords,v2.0,2026-11-07,base,14
+15,"plastic, marine, education, awareness",keywords,v2.0,2026-11-07,base,15
+16,"human, health, food, exposure",keywords,v2.0,2026-11-07,base,16
+17,"zooplankton, ingestion, microplastics, copepods",keywords,v2.0,2026-11-07,base,17
+18,"removal, adsorption, efficiency, water",keywords,v2.0,2026-11-07,base,18
+19,"microalgae, growth, effects, cell",keywords,v2.0,2026-11-07,base,19
+20,"additives, concentrations, leaching, plastic",keywords,v2.0,2026-11-07,base,20
+21,"urban, stormwater, road, runoff",keywords,v2.0,2026-11-07,base,21
+22,"fish, freshwater, mps, microplastic",keywords,v2.0,2026-11-07,base,22
+23,"waste, plastic, pyrolysis, recycling",keywords,v2.0,2026-11-07,base,23
+24,"entanglement, species, marine, debris",keywords,v2.0,2026-11-07,base,24
+25,"fishing, gear, aldfg, fishing gear",keywords,v2.0,2026-11-07,base,25
+26,"turtles, sea turtles, turtle, sea",keywords,v2.0,2026-11-07,base,26
+27,"atmospheric, airborne, deposition, mps",keywords,v2.0,2026-11-07,base,27
+28,"coral, corals, reef, reefs",keywords,v2.0,2026-11-07,base,28
+29,"freshwater, effects, exposure, microplastics",keywords,v2.0,2026-11-07,base,29
+30,"microfibers, microfiber, synthetic, washing",keywords,v2.0,2026-11-07,base,30
+31,"arctic, ice, sea ice, sea",keywords,v2.0,2026-11-07,base,31
+32,"masks, ppe, covid19, pandemic",keywords,v2.0,2026-11-07,base,32
+33,"nps, transport, aggregation, nanoplastics",keywords,v2.0,2026-11-07,base,33
+34,"species, debris, rafting, marine",keywords,v2.0,2026-11-07,base,34
+35,"wastewater, wwtps, treatment, sludge",keywords,v2.0,2026-11-07,base,35
+36,"collection, debris, marine, device",keywords,v2.0,2026-11-07,base,36
+37,"plastic, sediment, cores, anthropocene",keywords,v2.0,2026-11-07,base,37
+38,"antarctic, antarctica, southern ocean, southern",keywords,v2.0,2026-11-07,base,38
+39,"salt, salts, sea salt, water",keywords,v2.0,2026-11-07,base,39
+40,"deepsea, deep, column, water column",keywords,v2.0,2026-11-07,base,40
+41,"whales, microplastics, dolphins, species",keywords,v2.0,2026-11-07,base,41
+42,"bioturbation, benthic, sediment, effects",keywords,v2.0,2026-11-07,base,42
+43,"lakes, plateau, mps, remote",keywords,v2.0,2026-11-07,base,43
+44,"litter, seafloor, fishing, debris",keywords,v2.0,2026-11-07,base,44
+45,"bioaccumulation, chemicals, exposure, transfer",keywords,v2.0,2026-11-07,base,45
+46,"monitoring, data, debris, marine",keywords,v2.0,2026-11-07,base,46
+47,"carbon, climate, climate change, change",keywords,v2.0,2026-11-07,base,47
+48,"shark, sharks, species, plastic",keywords,v2.0,2026-11-07,base,48
+49,"sensor, sensitivity, temperature, salinity",keywords,v2.0,2026-11-07,base,49
+50,"river, metals, heavy, sediments",keywords,v2.0,2026-11-07,base,50
+51,"coral, reef, reefs, corals",keywords,v2.0,2026-11-07,base,51
+52,"citizen, citizen science, science, data",keywords,v2.0,2026-11-07,base,52
+53,"research, publications, bibliometric, analysis",keywords,v2.0,2026-11-07,base,53
+54,"paint, antifouling, paint particles, apps",keywords,v2.0,2026-11-07,base,54

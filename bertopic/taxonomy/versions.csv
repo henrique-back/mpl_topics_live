@@ -1,0 +1,3 @@
+version,date,kind,model,n_topics,n_papers,note
+v1.0,2026-11-06,baseline,models/v1/base.pkl,38,12398,ARI 0.54 with paper
+v2.0,2026-11-07,baseline,models/v2/base.pkl,55,20219,"consensus of 30 runs, split-half ARI 0.93 AMI 0.99; ARI 0.15 with v1"
