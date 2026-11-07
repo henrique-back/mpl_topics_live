@@ -1,4 +1,9 @@
 # Copy this file to configurations.ini (ignored by git) and fill in your own values.
+[scopus]
+# Elsevier API key (https://dev.elsevier.com) and institutional token; used by pipeline/fetch_scopus.py
+api_key = your_elsevier_api_key
+insttoken = your_institutional_token
+
 [geonames]
 # Free GeoNames account: https://www.geonames.org/login (enable the free web services in your account page)
 username = your_geonames_username
