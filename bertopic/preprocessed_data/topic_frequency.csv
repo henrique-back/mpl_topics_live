@@ -1,40 +1,56 @@
 ,Topic,Count,Topics,Average citation
-1,0,1500,0: Microplastic Abundance in Freshwater and Estuarine Water and Sediments,12.392221289047008
-2,1,861,1: Toxic Effects of Micro- and Nanoplastic Exposure on Aquatic Organisms,13.132874581219529
-3,2,771,"2: Plastic Waste Management, Governance and Mitigation Strategies",6.10558275561518
-4,3,728,3: Microplastic Contamination in Tissues of Commercial Fish Species,12.637534340659341
-5,4,683,4: Microbial Communities on Plastics (the Plastisphere),11.976018966392319
-6,5,676,5: Beach Litter Surveys and Marine Litter Monitoring,5.811064376168877
-7,6,363,6: Modeling the Dispersal of Floating Plastic Debris in the Ocean,15.125048594132977
-8,7,322,7: Microplastics in Soils and Terrestrial Ecosystems,15.940291988894474
-9,8,318,8: Microplastic Abundance and Distribution in Surface Seawater,15.500162267850948
-10,9,277,"9: Plastic Ingestion by Marine Fauna: Fish, Seabirds and Turtles",9.276007604843345
-11,10,269,"10: Reviews of Microplastic Sources, Fate and Effects in Aquatic Environments",16.24226320973533
-12,11,240,11: Marine Debris Ingestion and Entanglement in Sea Turtles and Marine Mammals,5.021429786657995
-13,12,183,12: Adsorption of Metals and Organic Pollutants onto Microplastics,14.81626816565341
-14,13,173,13: Human Exposure to Micro- and Nanoplastics through Food and Health Risks,20.62424993118635
-15,14,159,14: Synthetic Microfiber Release from Textile Washing,10.997960889089168
-16,15,152,15: Distribution and Composition of Plastic Debris on Beaches,8.714085494184179
-17,16,147,16: Settling and Transport Dynamics of Microplastic Particles,9.0778830579851
-18,17,141,17: Microplastic Removal in Wastewater Treatment Plants,14.023342339299786
-19,18,129,18: Riverine Macroplastic Transport to the Ocean,15.321139411837086
-20,19,125,"19: Abandoned, Lost or Discarded Fishing Gear and Ghost Fishing",3.9700039621240486
-21,20,123,20: Deep Learning and Drone Imagery for Marine Debris Detection,4.4704058588204925
-22,21,107,21: Satellite and Hyperspectral Remote Sensing of Floating Plastics,4.959212283044058
-23,22,106,22: Face Mask and PPE Pollution during the COVID-19 Pandemic,19.45047169811321
-24,23,101,23: Plastic Additives and Sorbed Organic Contaminants in Marine Plastic Debris,17.111016570135902
-25,24,100,24: Toxicity of Micro- and Nanoplastics to Marine Microalgae,13.335420634920636
-26,25,95,25: Microplastics in Coral Reef Ecosystems,9.911137053159214
-27,26,86,26: Plastic Ingestion across Marine and Freshwater Fish Species,12.059465244058266
-28,27,83,27: Atmospheric and Airborne Microplastics,21.864156626506023
-29,28,75,28: Global Ocean Plastic Waste Inputs and Climate Impacts,26.72599470899471
-30,29,73,29: Aging of Micro- and Nanoplastics and Their Interactions with Contaminants,22.148032180908896
-31,30,69,30: Tire and Road Wear Particles in Urban Stormwater Runoff,16.350207039337473
-32,31,68,31: Bioaccumulation and Trophic Transfer of Microplastics in Food Webs and Aquaculture,13.085527544351073
-33,32,68,32: Separation and Extraction Methods for Microplastic Analysis,17.477395276292334
-34,33,67,"33: UV Degradation, Weathering and Gasification of Plastics",13.326184553423358
-35,34,53,34: Reviews of Microplastic Occurrence and Ingestion by Marine and Freshwater Biota,18.169302186283318
-36,35,52,"35: Plastic Production, Life Cycle and Recycled Plastics in Construction",12.721173271173273
-37,36,49,36: Reviews of Micro- and Nanoplastic Fate and Impacts in Aquatic Ecosystems,22.689698736637514
-38,37,49,37: Long-Term Surveys of Beached and Seafloor Marine Debris,3.982195007204359
-39,38,48,38: PAHs and Other Organic Pollutants Associated with Microplastics in Sediments,15.338320707070707
+1,0,1945,0: Microplastics in rivers and reservoirs,14.639457543080455
+2,1,1385,1: Microplastics in wild and commercial sea fish,12.665694894053464
+3,2,1263,2: Microplastics in estuaries and coastal sediments,11.873571322393023
+4,3,1140,3: Toxic effects on marine animals in laboratory tests,13.991114447863177
+5,4,976,4: Plastic waste policy and circular economy,10.266468385041197
+6,5,972,5: Methods to detect and identify microplastics,14.850840584415105
+7,6,891,6: Biodegradable plastics and plastic breakdown,11.419456588121978
+8,7,741,7: Microbial communities living on plastics,14.81806305063581
+9,8,637,8: Weathering of microplastics and pollutant uptake,19.06756872114809
+10,9,564,"9: Satellite, drone and AI debris detection",6.0154140629887936
+11,10,563,10: General reviews of microplastic pollution,25.65839724646724
+12,11,521,11: Litter surveys on beaches,6.389686120066755
+13,12,403,12: Microplastics in soils and farmland,23.302539462687218
+14,13,370,13: Plastic ingestion by seabirds,6.844826629797122
+15,14,353,14: Microplastics in mangroves and seagrass,11.698060319410237
+16,15,346,15: Public awareness and attitudes to plastic,4.830957564719592
+17,16,273,16: Human exposure and health risks,36.85503973788292
+18,17,267,17: Plastic uptake by plankton and filter feeders,18.06319820824438
+19,18,263,18: Technologies to remove microplastics from water,14.905557523458663
+20,19,229,19: Effects on microalgae growth,12.938481897623411
+21,20,228,20: Chemical additives and pollutants on plastics,15.891611166269005
+22,21,204,21: Urban runoff and tyre wear particles,18.00120450257215
+23,22,200,22: Microplastics in freshwater fish,12.084649198580909
+24,23,196,23: Recycling marine plastic waste into products,6.650025588337849
+25,24,192,24: Large debris harming whales and seals,6.7403223845693345
+26,25,190,25: Lost fishing gear and ghost fishing,5.329345538301905
+27,26,190,26: Plastic ingestion by sea turtles,6.7831375728893475
+28,27,181,27: Airborne microplastics and atmospheric transport,31.459478264671986
+29,28,145,28: Microplastic effects on coral reefs,10.820957553419634
+30,29,140,29: Effects on freshwater invertebrates,12.560659041940134
+31,30,136,30: Synthetic fibres shed by textile washing,20.96040733229589
+32,31,135,31: Microplastics in Arctic sea ice and waters,13.318456941858763
+33,32,132,32: Face mask and protective equipment litter,15.314549311308078
+34,33,130,33: Nanoplastic clumping and movement in sediments,16.269494055437015
+35,34,130,34: Species rafting on floating debris,6.1247870381703615
+36,35,125,35: Microplastics in wastewater treatment plants,16.674986855958128
+37,36,119,36: Robots and devices for collecting debris,2.3732385821578696
+38,37,113,37: Plastic records in sediment cores and rocks,13.269325874925224
+39,38,108,38: Plastic pollution in Antarctica,15.013535419621258
+40,39,106,39: Microplastics in table and sea salt,16.641618266042673
+41,40,101,40: Microplastics in the deep sea,21.935629703830827
+42,41,89,"41: Microplastics in whales, dolphins and seals",11.595751242955009
+43,42,86,42: Effects on seafloor animals and sediment processes,12.468302664017582
+44,43,75,43: Microplastics in remote mountain lakes,18.017601172528675
+45,44,71,44: Litter on the seafloor,5.755757968948767
+46,45,64,45: Chemical transfer from swallowed plastics,15.68552787487322
+47,46,63,46: Designing marine litter monitoring programmes,9.825918582725045
+48,47,62,"47: Plastics, the carbon cycle and climate",20.90605505005777
+49,48,54,48: Plastic ingestion by sharks and rays,6.759410638651677
+50,49,54,49: Optical fibre sensors for seawater,3.878723575329037
+51,50,53,50: Microplastics and heavy metals in river sediments,7.721493361513641
+52,51,53,51: Debris and fishing gear damage to reefs,4.957250300583239
+53,52,53,52: Citizen science on plastic pollution,5.792997562716556
+54,53,51,53: Bibliometric analyses of plastic research,11.148925894317923
+55,54,51,54: Paint particles from ships,11.060478243460619
