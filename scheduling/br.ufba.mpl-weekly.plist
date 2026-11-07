@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Runs pipeline/weekly.py every Monday at 06:00 (or at the next wake, if the Mac was asleep).
+     __REPO__ and __HOME__ are filled in by the install command in README.md (section "Weekly schedule"). -->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>br.ufba.mpl-weekly</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>__REPO__/.venv/bin/python</string>
+    <string>__REPO__/pipeline/weekly.py</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>__REPO__</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <!-- `claude` (~/.local/bin), git and ssh must be found -->
+    <key>PATH</key>
+    <string>__HOME__/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+  </dict>
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Weekday</key>
+    <integer>1</integer>
+    <key>Hour</key>
+    <integer>6</integer>
+    <key>Minute</key>
+    <integer>0</integer>
+  </dict>
+  <key>StandardOutPath</key>
+  <string>__REPO__/logs/launchd.log</string>
+  <key>StandardErrorPath</key>
+  <string>__REPO__/logs/launchd.log</string>
+</dict>
+</plist>

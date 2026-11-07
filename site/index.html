@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Microplastics Research Monitor</title>
+<meta name="description" content="A living review of the scientific literature on microplastics and marine plastic pollution, updated weekly.">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js"></script>
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <h1>Microplastics Research Monitor</h1>
+        <p class="lede">A living review of the scientific literature on microplastics and marine plastic pollution.
+          Every week, newly published papers are added, sorted into research topics and located in the world's ocean
+          basins.</p>
+      </div>
+      <button class="theme-toggle" id="theme-toggle" type="button">Theme: auto</button>
+    </div>
+    <div class="tiles" id="tiles"></div>
+    <nav class="tabs" aria-label="Sections">
+      <a href="#week" data-tab="week">This week</a>
+      <a href="#explore" data-tab="explore">Explore the research</a>
+      <a href="#methods" data-tab="methods">Methods</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- This week: the newsletter -->
+  <section class="tab" id="tab-week">
+    <p class="notice">This newsletter is written automatically by an AI model (Claude) from the abstracts of the
+      week's papers, and is not reviewed before publication. It can contain errors: follow the links to the papers
+      before relying on a statement.</p>
+    <div class="grid-2 week-layout" id="week-layout">
+      <div id="issue"></div>
+      <aside>
+        <h3>Past issues</h3>
+        <ul class="archive" id="archive"></ul>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Explore -->
+  <section class="tab" id="tab-explore" hidden>
+    <div class="controls">
+      <div>
+        <label id="level-label">Topic detail</label><br>
+        <div class="segmented" role="group" aria-labelledby="level-label" id="level-switch">
+          <button type="button" data-level="coarse">Broad</button>
+          <button type="button" data-level="mid">Medium</button>
+          <button type="button" data-level="fine">Detailed</button>
+        </div>
+      </div>
+      <div style="flex: 1 1 280px; min-width: 0;">
+        <label for="topic-select">Topic</label><br>
+        <select class="topic-select" id="topic-select"></select>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h2>Research topics</h2>
+        <p class="how">The papers are grouped into topics at three levels of detail: the inner ring holds the broad
+          topics, the outer rings their more detailed subtopics. Each segment's size is its number of papers. Click a
+          topic to select it and zoom into its subtopics; click the centre to zoom back out.</p>
+        <div class="chart tall" id="sunburst"></div>
+      </div>
+      <div class="card topic-card" id="topic-card"></div>
+    </div>
+
+    <div class="card">
+      <h2>The map of the research</h2>
+      <p class="how">Each dot is a paper, placed so that papers with similar abstracts lie close together. The
+        selected topic is highlighted; the labels mark where each topic lies. Distances between distant groups mean
+        little, only neighbourhoods do. Click a dot to select its topic.</p>
+      <div class="chart tall" id="paper-map"></div>
+    </div>
+
+    <div class="card">
+      <h2>How the topics grew</h2>
+      <p class="how">Papers published per year in each topic (grey lines), with the selected topic highlighted. The
+        current year is left out because it is still incomplete.</p>
+      <div class="segmented" role="group" aria-label="Scale" id="time-mode" style="margin-bottom:8px">
+        <button type="button" data-mode="count" aria-pressed="true">Papers per year</button>
+        <button type="button" data-mode="share">Share of all papers</button>
+      </div>
+      <div class="chart" id="over-time"></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h2>Where in the ocean</h2>
+        <p class="how">Papers per ocean basin, from the places named in their abstracts. Darker basins have more
+          papers (of the selected topic, or of all topics). Click a basin to see its topics.
+          <span id="no-basin-note"></span></p>
+        <div class="chart" id="basin-map"></div>
+      </div>
+      <div class="card">
+        <h2 id="basin-topics-title">Topics in a basin</h2>
+        <p class="how">The topics with the most papers in the chosen basin. Click a bar to select the topic.</p>
+        <div class="chart" id="basin-topics"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Topics by ocean basin</h2>
+      <p class="how">Number of papers of each topic (rows) in each basin (columns); darker cells have more papers,
+        on a logarithmic scale so that small counts stay visible. "No basin" holds the papers that name no ocean
+        place, such as laboratory, freshwater or land studies.</p>
+      <div class="scroll-x"><div class="chart" id="heatmap"></div></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h2>Citation impact</h2>
+        <p class="how">Median citations per year of the papers of each topic, counting only papers at least
+          <span class="min-age"></span> years old. Higher means the topic's typical paper is cited more often; citation
+          habits differ between fields, so compare with care.</p>
+        <div class="chart tall" id="impact"></div>
+      </div>
+      <div class="card">
+        <h2>How concentrated attention is</h2>
+        <p class="how">Each curve sorts a topic's papers from least to most cited and shows the share of all its
+          citations held by the least-cited share of papers. The further a curve sags below the diagonal (perfect
+          equality), the more the citations go to a few papers.</p>
+        <div class="chart tall" id="lorenz"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Citation inequality over time</h2>
+      <p class="how">The Gini coefficient of the citations per year of each topic's papers, by publication year: 0
+        means every paper is cited equally, 1 that one paper gets all the citations. Shown only for topic-years with at
+        least <span class="min-gini"></span> cited papers, as fewer give unreliable values.</p>
+      <div class="chart" id="gini"></div>
+    </div>
+
+    <div class="card">
+      <details>
+        <summary>All topics as a table</summary>
+        <div class="scroll-x" id="topic-table"></div>
+      </details>
+    </div>
+  </section>
+
+  <!-- Methods -->
+  <section class="tab methods" id="tab-methods" hidden>
+    <h2>How this review works</h2>
+    <p>The review covers the scientific papers indexed in <a href="https://www.scopus.com">Scopus</a> that mention
+      marine debris, plastic pollution, microplastics, nanoplastics, microfibres or plastic pellets together with the
+      sea, the coast, the ocean or sediments. It started from <span data-meta="n_papers"></span> papers and grows
+      every week.</p>
+    <ol>
+      <li><strong>Collecting papers.</strong> Every Monday, the papers added to Scopus during the past week are
+        fetched with their abstracts; duplicates and papers without an abstract are left out.</li>
+      <li><strong>Grouping papers into topics.</strong> Each abstract is turned into a numerical "fingerprint" of its
+        meaning by a language model (<span data-meta="encoder"></span>), and papers with similar fingerprints are
+        grouped into topics by a clustering algorithm (BERTopic with UMAP and HDBSCAN). The detailed topics are then
+        merged, most similar first, into medium and broad topics. New papers join the topic of the most similar
+        existing papers; the topics themselves are only rebuilt from scratch occasionally (see below).</li>
+      <li><strong>Naming topics.</strong> Each topic is named and described by an AI model (Claude), from its
+        characteristic words and its most typical abstracts.</li>
+      <li><strong>Locating papers.</strong> Place names in each abstract are recognised automatically, looked up in
+        the GeoNames gazetteer and assigned to the nearest ocean basin; a paper belongs to the basin most of its places
+        fall in.</li>
+      <li><strong>Citations.</strong> Citation counts come from Scopus and are refreshed monthly. To compare papers of
+        different ages, citations are divided by the paper's age, and papers younger than
+        <span class="min-age"></span> years are left out of citation analyses.</li>
+    </ol>
+
+    <h2>How reliable are the topics?</h2>
+    <div id="quality"></div>
+
+    <h2>Versions of the topics</h2>
+    <p>The topics are rebuilt from scratch only when many new papers no longer fit them; each rebuild starts a new
+      version. Between rebuilds, papers are added to the existing topics and past assignments never change.</p>
+    <div id="versions"></div>
+
+    <h2>Limitations</h2>
+    <ul>
+      <li><strong>Coverage.</strong> Only papers indexed by Scopus and matching the search are included; books,
+        reports and papers in other databases are not.</li>
+      <li><strong>Locations.</strong> Basins are inferred from the place names in abstracts, which can be missing,
+        ambiguous (a city name shared by two countries) or about where the authors work rather than where they
+        sampled. <span data-meta="no_basin_share"></span> of papers name no ocean place at all.</li>
+      <li><strong>Topics.</strong> Topics are statistical groupings of similar abstracts, not an expert
+        classification. A paper belongs to a single topic even when it touches several, and about
+        <span data-meta="outlier_share"></span> of papers fit no topic well and are left out of the topic charts.</li>
+      <li><strong>Citations.</strong> Citation counts favour older papers and fields with more researchers; the
+        median and Gini coefficient describe each topic's citations, not the quality of its research.</li>
+      <li><strong>AI-written text.</strong> Topic names, descriptions and the weekly newsletter are written by an AI
+        model (<span data-meta="labels_model"></span>) and published without human review. They can be inaccurate.</li>
+    </ul>
+
+    <h2>Data and code</h2>
+    <p>The code and data of this review are open: <a href="https://github.com/henrique-back/mpl_topics_live">github.com/henrique-back/mpl_topics_live</a>.
+      It continues the analysis of an earlier paper (code at
+      <a href="https://github.com/henrique-back/mpl_topics">github.com/henrique-back/mpl_topics</a>).</p>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap" id="footer"></div>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>
