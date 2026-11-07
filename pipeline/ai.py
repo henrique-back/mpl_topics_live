@@ -13,8 +13,19 @@ import config
 TIMEOUT = 30 * 60  # seconds
 
 
-def ask(prompt, schema, system):
-    """Claude's answer to `prompt` (sent on stdin), as the dict matching the JSON schema `schema`."""
+def ask(prompt, schema, system, attempts=2):
+    """Claude's answer to `prompt` (sent on stdin), as the dict matching the JSON schema `schema`. A failed call
+    (e.g. interrupted by a network error or by the computer sleeping) is retried once."""
+    for attempt in range(attempts):
+        try:
+            return _ask(prompt, schema, system)
+        except (RuntimeError, subprocess.TimeoutExpired) as error:
+            if attempt == attempts - 1:
+                raise
+            print(f"Claude call failed ({str(error)[:200]}); retrying")
+
+
+def _ask(prompt, schema, system):
     command = ['claude', '-p', '--model', config.CLAUDE_MODEL, '--output-format', 'json',
                '--json-schema', json.dumps(schema), '--tools', '', '--no-session-persistence',
                '--system-prompt', system]

@@ -103,7 +103,8 @@ def main():
     topic_model.set_topic_labels({t: topic_labels[t] for t in [-1, *topic_ids] if t in topic_labels})
 
     # --- Topics over time -----------------------------------------------------------------------
-    topics_over_time = topic_model.topics_over_time(docs, timestamp)
+    # evolution_tuning only writes into a temporary copy in BERTopic (no effect), at a large cost: off
+    topics_over_time = topic_model.topics_over_time(docs, timestamp, evolution_tuning=False)
     topics_over_time.to_csv(PRE / 'topics_over_time.csv')
 
     # --- Paper table: topic, basin, year and citations of each paper ----------------------------

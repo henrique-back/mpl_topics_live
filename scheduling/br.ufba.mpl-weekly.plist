@@ -8,6 +8,9 @@
   <string>br.ufba.mpl-weekly</string>
   <key>ProgramArguments</key>
   <array>
+    <!-- caffeinate keeps the Mac awake until the run ends (a sleep interrupts the Claude calls) -->
+    <string>/usr/bin/caffeinate</string>
+    <string>-i</string>
     <string>__REPO__/.venv/bin/python</string>
     <string>__REPO__/pipeline/weekly.py</string>
   </array>
