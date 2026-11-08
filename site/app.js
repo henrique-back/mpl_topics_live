@@ -176,7 +176,8 @@ function setupControls() {
 const TRANSFORMERS = 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1/dist/transformers.min.js';
 const SEARCH_RESULTS = 8;
 const WORD_BONUS = 0.1;  // added to the similarity per share of the query's words found in the topic's name
-const search = { index: null, embed: null, loading: null, failed: false, results: [], active: -1, ticket: 0, semantic: false };
+const search = { index: null, embed: null, loading: null, failed: false, results: [], query: null, active: -1, ticket: 0,
+  semantic: false, timer: null };
 
 const words = (s) => String(s).toLowerCase().match(/[\p{L}\p{N}]+/gu) || [];
 
@@ -212,7 +213,7 @@ function wordMatch(query, t) {
 async function runSearch() {
   const text = $('topic-search').value.trim();
   const ticket = ++search.ticket;
-  if (!text) { search.results = []; renderSearch(); return; }
+  if (!text) { search.results = []; search.query = text; renderSearch(); return; }
   const query = words(text);
   const candidates = search.index || LEVELS.flatMap((level) => topicsAt(level).map((t) => ({ level, id: t.id })));
   let q = null;
@@ -232,6 +233,7 @@ async function runSearch() {
   const seen = new Set();  // a name repeated at two levels: keep the better ranked
   search.results = rows.filter((r) => !seen.has(label(r.level, r.id)) && seen.add(label(r.level, r.id))).slice(0, SEARCH_RESULTS);
   search.semantic = q != null;
+  search.query = text;
   search.active = search.results.length ? 0 : -1;
   renderSearch();
 }
@@ -245,7 +247,7 @@ function renderSearch() {
   const n = search.results.length;
   const loading = !search.embed && !search.failed;
   $('search-status').textContent = search.semantic ? 'Topics closest in meaning to your search'
-    : loading ? (n ? 'Topics using these words. Loading the search by meaning…' : 'Loading the search by meaning…')
+    : loading ? (n ? 'Topics using these words. Loading the search by meaning…' : 'Loading the search by meaning (about 35 MB, only the first time)…')
       : (n ? 'Topics using these words' : 'No topic uses these words');
   $('search-results').innerHTML = search.results.map((r, i) => {
     const t = topic(r.level, r.id);
@@ -270,11 +272,24 @@ function chooseResult(i) {
   select(r.level, r.id);
 }
 
+/** Enter: the best result of the query as typed, without waiting for the search that runs after typing pauses, once
+    the search by meaning has loaded (or failed to). */
+async function submitSearch() {
+  clearTimeout(search.timer);
+  const text = $('topic-search').value.trim();
+  if (!text) return;
+  if (search.query !== text) await runSearch();
+  if (!search.embed && !search.failed) {  // word matches are a stopgap: wait for the search by meaning
+    await loadSearch();
+    await runSearch();
+  }
+  if ($('topic-search').value.trim() === text) chooseResult(search.active);  // unless typing went on meanwhile
+}
+
 function setupSearch() {
   const input = $('topic-search');
-  let timer;
   input.addEventListener('focus', () => { loadSearch(); renderSearch(); });
-  input.addEventListener('input', () => { loadSearch(); clearTimeout(timer); timer = setTimeout(runSearch, 120); });
+  input.addEventListener('input', () => { loadSearch(); clearTimeout(search.timer); search.timer = setTimeout(runSearch, 120); });
   input.addEventListener('blur', () => setTimeout(renderSearch, 0));
   input.addEventListener('keydown', (e) => {
     const n = search.results.length;
@@ -285,7 +300,7 @@ function setupSearch() {
       renderSearch();
     } else if (e.key === 'Enter') {
       e.preventDefault();
-      chooseResult(search.active);
+      submitSearch();
     } else if (e.key === 'Escape' && !$('search-panel').hidden) {
       e.preventDefault();  // close, keeping the text (the browser's default clears it)
       input.blur();
