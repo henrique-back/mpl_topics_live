@@ -6,7 +6,7 @@ const LEVELS = ['coarse', 'mid', 'fine'];
 const LEVEL_NAMES = { coarse: 'Broad', mid: 'Medium', fine: 'Detailed' };
 const FIRST_YEAR_SHOWN = 2000;
 
-const state = { level: 'coarse', selected: null, basin: null, timeMode: 'count', sunRoot: null };
+const state = { level: 'coarse', selected: null, basin: null, timeMode: 'count', sunRoot: null, sunTop: null };
 const D = {};
 const charts = {};
 let exploreReady = false;
@@ -68,6 +68,16 @@ function children(level, id) {
   const ids = new Set();
   for (const row of D.parents.values()) if (row[LEVELS.indexOf(level)] === id) ids.add(row[LEVELS.indexOf(below)]);
   return topicsAt(below).filter((t) => ids.has(t.id));
+}
+/** The subtopics of topic `id` of `level` that split it: the children, skipping levels where a topic has one child
+    only (the same papers), and none when it is never split. */
+function subtopics(level, id) {
+  let l = level, kids = [topic(level, id)];
+  while (kids.length === 1 && LEVELS.indexOf(l) < LEVELS.length - 1) {
+    kids = children(l, kids[0].id);
+    l = LEVELS[LEVELS.indexOf(l) + 1];
+  }
+  return { level: l, kids: kids.length > 1 ? kids : [] };
 }
 function levelData() { return D.levels[state.level]; }
 function rowOf(id) { return levelData().topics.indexOf(id); }
@@ -335,53 +345,99 @@ function markColor(id, alone = false) {
 }
 const trunc = (s, n) => (s.length > n ? `${s.slice(0, n - 1)}…` : s);
 
+/* The sunburst shows one ring, the topics of the chosen level, until a topic with subtopics is clicked: that topic
+   then fills the centre, with its subtopics (and theirs) as the rings around it. `state.sunRoot` is the topic in the
+   centre (`<level>:<id>`), `state.sunTop` the level of the ring it was opened from. */
 function renderSunburst() {
   const depthColor = [css('--seq-300'), css('--seq-200'), css('--seq-100')];
-  const ids = { coarse: null, mid: null };
-  if (state.selected != null) {
-    ids.coarse = ancestor(state.level, state.selected, 'coarse');
-    if (state.level !== 'coarse') ids.mid = ancestor(state.level, state.selected, 'mid');
+  // A selection made elsewhere, outside the opened topic, closes it
+  if (state.sunRoot) {
+    const [rootLevel, rootId] = state.sunRoot.split(':');
+    const inside = state.selected != null && LEVELS.indexOf(state.level) >= LEVELS.indexOf(rootLevel)
+      && ancestor(state.level, state.selected, rootLevel) === Number(rootId);
+    if (!inside) state.sunRoot = null;
   }
-  const node = (level, t, depth) => {
+  const ids = {};  // the selected topic and its ancestors
+  if (state.selected != null) LEVELS.slice(0, LEVELS.indexOf(state.level) + 1).forEach((l) => { ids[l] = ancestor(state.level, state.selected, l); });
+  const inSelection = (level, id) => state.selected != null && LEVELS.indexOf(level) > LEVELS.indexOf(state.level)
+    && ancestor(level, id, state.level) === state.selected;
+  const node = (level, t, open) => {
     const selected = level === state.level && t.id === state.selected;
-    const onPath = (level === 'coarse' && t.id === ids.coarse) || (level === 'mid' && t.id === ids.mid);
-    const kids = children(level, t.id);
+    const sub = open ? subtopics(level, t.id) : { kids: [] };
+    const kids = sub.kids;
     return {
       id: `${level}:${t.id}`, name: t.label, level, topicId: t.id, description: t.description, n: t.n,
       value: kids.length ? undefined : t.n,
-      itemStyle: { color: selected ? css('--accent') : depthColor[depth], borderColor: css('--surface'), borderWidth: 1.5,
-        opacity: state.selected == null || selected || onPath ? 1 : 0.75 },
+      itemStyle: { color: selected ? css('--accent') : depthColor[LEVELS.indexOf(level)], borderColor: css('--surface'), borderWidth: 1.5,
+        opacity: state.selected == null || ids[level] === t.id || inSelection(level, t.id) ? 1 : 0.75 },
       label: { color: selected ? '#fff' : css('--ink') },
-      children: kids.map((k) => node(LEVELS[depth + 1], k, depth + 1)),
+      children: kids.map((k) => node(sub.level, k, true)),
     };
   };
-  const narrow = $('sunburst').clientWidth < 480;
+  let data, rings;  // rings: [r0, r] in % of the radius, one per depth
+  if (state.sunRoot) {
+    const [rootLevel, rootId] = state.sunRoot.split(':');
+    data = [node(rootLevel, topic(rootLevel, Number(rootId)), true)];
+    const height = (d) => 1 + Math.max(0, ...d.children.map(height));
+    const depths = height(data[0]) - 1;
+    const step = (97 - 26) / depths;
+    rings = [[0, 26], ...Array.from({ length: depths }, (_, i) => [26 + step * i, 26 + step * (i + 1)])];
+  } else {
+    data = topicsAt(state.level).map((t) => node(state.level, t, false));
+    rings = [[24, 97]];
+  }
+  const el = $('sunburst');
+  const R = Math.min(el.clientWidth, el.clientHeight) / 2;
+  const levels = [{}, ...rings.map(([r0, r], i) => {
+    const centre = r0 === 0;
+    const inner = (R * (r0 + (r - r0) / 4)) / 100;
+    return {
+      r0: `${r0}%`, r: `${r}%`,
+      label: centre
+        ? { rotate: 0, width: (R * r * 1.7) / 100, overflow: 'break', fontSize: 13, fontWeight: 600, minAngle: 0 }
+        // Radial labels as long as the ring is wide, shown where the segment is tall enough for a line of text
+        // (measured a quarter into the ring, where long labels get crowded)
+        : { rotate: 'radial', width: (R * (r - r0)) / 100 - 8, minAngle: (14 / inner) * (180 / Math.PI) },
+    };
+  })];
+  // Segments wide enough for more than one line of text wrap their label (up to three lines) instead of truncating it
+  const total = sum(data.map((d) => d.n));
+  const wrap = (d, depth) => {
+    const [r0, r] = rings[depth - 1];
+    const lines = Math.min(3, Math.floor(((2 * Math.PI * d.n) / total) * ((R * (r0 + (r - r0) / 4)) / 100) / 13));
+    if (r0 > 0 && lines >= 2) d.label = { ...d.label, overflow: 'break', lineHeight: 13, height: lines * 13, lineOverflow: 'truncate' };
+    d.children.forEach((k) => wrap(k, depth + 1));
+  };
+  data.forEach((d) => wrap(d, 1));
   const c = chart('sunburst');
   c.setOption({
-    tooltip: tooltip({ formatter: (p) => p.data && p.data.n ? `<b>${esc(p.data.name)}</b><br>${fmt(p.data.n)} papers · ${LEVEL_NAMES[p.data.level]} topic<br><span style="color:${css('--ink-2')}">${esc(p.data.description)}</span>` : '' }),
+    title: state.sunRoot ? undefined : {
+      text: String(topicsAt(state.level).length), subtext: `${LEVEL_NAMES[state.level].toLowerCase()} topics`,
+      left: 'center', top: 'middle', itemGap: 2,
+      textStyle: { color: css('--ink'), fontSize: 22, fontWeight: 600 }, subtextStyle: { color: css('--ink-2'), fontSize: 12 },
+    },
+    tooltip: tooltip({ formatter: (p) => p.data && p.data.n ? `<b>${esc(p.data.name)}</b><br>${fmt(p.data.n)} papers · ${LEVEL_NAMES[p.data.level]} topic<br><span style="color:${css('--ink-2')}">${esc(p.data.description)}</span>${p.data.id === state.sunRoot ? `<br><i>Click to go back</i>` : ''}` : '' }),
     series: [{
-      type: 'sunburst', data: topicsAt('coarse').map((t) => node('coarse', t, 0)), sort: null, nodeClick: false,
-      radius: ['0%', '96%'], emphasis: { focus: 'ancestor' },
-      label: { fontSize: 11, minAngle: 9, overflow: 'truncate' },
-      levels: [{}, { r0: '10%', r: '52%', label: { rotate: 'radial', width: narrow ? 60 : 92, minAngle: narrow ? 12 : 7 } },
-        { r0: '52%', r: '78%', label: { show: !narrow, rotate: 'radial', width: 58, minAngle: 9 } },
-        { r0: '78%', r: '97%', label: { show: false } }],
+      type: 'sunburst', data, sort: null, nodeClick: false, radius: ['0%', '97%'], emphasis: { focus: 'ancestor' },
+      label: { fontSize: 11, overflow: 'truncate' }, levels,
     }],
   }, true);
-  if (state.sunRoot) c.dispatchAction({ type: 'sunburstRootToNode', targetNode: state.sunRoot });
   c.off('click');
   c.on('click', (p) => {
     const d = p.data;
     if (!d || d.topicId == null) return;
-    if (d.id === state.sunRoot) {  // the centre: zoom back out one level
-      const up = LEVELS.indexOf(d.level) - 1;
-      if (up < 0) { state.sunRoot = null; select(d.level, d.topicId); return; }
-      const parent = ancestor(d.level, d.topicId, LEVELS[up]);
-      state.sunRoot = up > 0 ? `${LEVELS[up]}:${parent}` : null;
-      select(LEVELS[up], parent);
+    if (d.id === state.sunRoot) {  // the centre: back to the ring it was opened from, or up one level
+      if (d.level === state.sunTop) { state.sunRoot = null; select(d.level, d.topicId); return; }
+      const up = LEVELS[LEVELS.indexOf(d.level) - 1];
+      const parent = ancestor(d.level, d.topicId, up);
+      state.sunRoot = `${up}:${parent}`;
+      select(up, parent);
       return;
     }
-    if (d.children && d.children.length) state.sunRoot = d.id;
+    if (subtopics(d.level, d.topicId).kids.length) {  // open a topic with subtopics
+      if (!state.sunRoot) state.sunTop = d.level;
+      state.sunRoot = d.id;
+    }
     select(d.level, d.topicId);
   });
 }
