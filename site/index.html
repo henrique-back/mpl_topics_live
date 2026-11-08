@@ -25,6 +25,7 @@
       <a href="#week" data-tab="week">This week</a>
       <a href="#explore" data-tab="explore">Explore the research</a>
       <a href="#methods" data-tab="methods">Methods</a>
+      <a href="#about" data-tab="about">About</a>
     </nav>
   </div>
 </header>
@@ -212,13 +213,67 @@
 
     <h2>Data and code</h2>
     <p>The code and data of this review are open: <a href="https://github.com/henrique-back/mpl_topics_live">github.com/henrique-back/mpl_topics_live</a>.
-      It continues the analysis of an earlier paper (code at
-      <a href="https://github.com/henrique-back/mpl_topics">github.com/henrique-back/mpl_topics</a>).</p>
+      It continues the analysis of an earlier study (<a href="https://doi.org/10.2139/ssrn.5332715">preprint on SSRN</a>;
+      code at <a href="https://github.com/henrique-back/mpl_topics">github.com/henrique-back/mpl_topics</a>).</p>
+
+    <h2>References</h2>
+    <ul class="references">
+      <li><strong>Scopus</strong>, the source of papers, abstracts and citation counts.
+        <a href="https://www.scopus.com">scopus.com</a></li>
+      <li><strong>Qwen3-Embedding</strong>, the language model that turns abstracts into fingerprints.
+        <a href="https://huggingface.co/Qwen/Qwen3-Embedding-4B">huggingface.co/Qwen/Qwen3-Embedding-4B</a></li>
+      <li><strong>BERTopic</strong>, the topic-modelling framework.
+        <a href="https://maartengr.github.io/BERTopic/index.html">maartengr.github.io/BERTopic</a></li>
+      <li><strong>UMAP</strong>, which reduces the fingerprints to a few dimensions before clustering and draws the
+        map of the research. <a href="https://umap-learn.readthedocs.io/en/latest/">umap-learn.readthedocs.io</a></li>
+      <li><strong>HDBSCAN</strong>, the clustering algorithm that finds the topics.
+        <a href="https://hdbscan.readthedocs.io/en/latest/how_hdbscan_works.html">hdbscan.readthedocs.io</a></li>
+      <li><strong>Consensus clustering.</strong> The topics combine many runs of UMAP and HDBSCAN by evidence
+        accumulation: Fred, A. L. N. and Jain, A. K. (2005). Combining multiple clusterings using evidence
+        accumulation. <em>IEEE Transactions on Pattern Analysis and Machine Intelligence</em> 27(6), 835–850.
+        <a href="https://doi.org/10.1109/TPAMI.2005.113">doi.org/10.1109/TPAMI.2005.113</a></li>
+      <li><strong>spaCy</strong>, which recognises place names in the abstracts.
+        <a href="https://spacy.io">spacy.io</a></li>
+      <li><strong>GeoNames</strong>, the gazetteer that gives each place its coordinates.
+        <a href="https://www.geonames.org">geonames.org</a></li>
+    </ul>
+  </section>
+
+  <!-- About -->
+  <section class="tab methods" id="tab-about" hidden>
+    <h2>About</h2>
+    <p>The Microplastics Research Monitor is made and maintained by <strong>Henrique Back</strong>. It grew out of a
+      topic-modelling study of the microplastics literature and keeps that analysis running as new papers come out, so
+      that researchers, policy makers and the public can see what is being studied, where, and how much.</p>
+    <p>The work was developed in partnership with the
+      <a href="https://labeco.ufsc.br/veleiro/">Laboratório de Engenharia e Ciências Oceânicas (LabECO)</a> of the
+      Universidade Federal de Santa Catarina (UFSC), Brazil, and the <a href="https://mers.uab.cat">MERS research
+      group</a> of the Institute of Environmental Science and Technology of the Universitat Autònoma de Barcelona
+      (ICTA-UAB), Spain.</p>
+
+    <h2>The study</h2>
+    <p>The method and the first results are described in a preprint by Henrique de Medeiros Back, Michael Grelaud,
+      Orestes Estevam Alarcon and Patrizia Ziveri. Please cite it when you use this review:</p>
+    <p class="citation">Back, H. de M., Grelaud, M., Alarcon, O. E. and Ziveri, P. Decoding the Evolution of Marine
+      Plastic Litter Research with Large Language Models. Preprint, SSRN.
+      <a href="https://doi.org/10.2139/ssrn.5332715">doi.org/10.2139/ssrn.5332715</a></p>
+
+    <h2>Contact</h2>
+    <p>Questions, corrections or ideas are welcome, including reports of a wrongly named topic or an error in the
+      newsletter.</p>
+    <ul class="contact">
+      <li>Email: <a href="mailto:henriback2@gmail.com">henriback2@gmail.com</a></li>
+      <li>LinkedIn: <a href="https://www.linkedin.com/in/henriback/">linkedin.com/in/henriback</a></li>
+      <li>GitHub: <a href="https://github.com/henrique-back">github.com/henrique-back</a></li>
+    </ul>
   </section>
 </main>
 
 <footer class="site">
-  <div class="wrap" id="footer"></div>
+  <div class="wrap">
+    <p id="footer"></p>
+    <p>Made by Henrique Back · <a href="#about">About and contact</a></p>
+  </div>
 </footer>
 <script src="app.js"></script>
 </body>

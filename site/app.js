@@ -722,7 +722,7 @@ function renderMethods() {
 // ---------------------------------------------------------------------------------------------- tabs, theme
 function showTab() {
   const tab = (location.hash.slice(1).split('/')[0]) || 'week';
-  const name = ['week', 'explore', 'methods'].includes(tab) ? tab : 'week';
+  const name = ['week', 'explore', 'methods', 'about'].includes(tab) ? tab : 'week';
   document.querySelectorAll('section.tab').forEach((s) => { s.hidden = s.id !== `tab-${name}`; });
   document.querySelectorAll('nav.tabs a').forEach((a) => { if (a.dataset.tab === name) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
   if (name === 'week') renderWeek();

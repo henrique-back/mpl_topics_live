@@ -125,6 +125,11 @@ details summary { cursor: pointer; color: var(--ink-2); font-size: 0.9rem; }
 .methods { max-width: 50em; }
 .methods h2 { margin-top: 28px; }
 footer.site { border-top: 1px solid var(--border); padding: 20px 0 40px; color: var(--muted); font-size: 0.85rem; }
+footer.site p { margin: 0 0 4px; }
+ul.contact { list-style: none; padding: 0; }
+ul.contact li { padding: 2px 0; }
+ul.references li { padding: 3px 0; }
+p.citation { border-left: 3px solid var(--accent); padding: 4px 0 4px 12px; color: var(--ink-2); }
 .grid-2.week-layout { grid-template-columns: minmax(0, 3fr) minmax(0, 1fr); }
 @media (max-width: 860px) { .grid-2.week-layout { grid-template-columns: minmax(0, 1fr); } }
 #sunburst { height: auto; aspect-ratio: 1 / 1; max-height: 520px; }
