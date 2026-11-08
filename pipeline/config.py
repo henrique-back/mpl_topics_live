@@ -101,6 +101,13 @@ GINI_LEVEL = 'mid'
 REBASELINE_POOL_SHARE = None
 NOVELTY_MAX_SIMILARITY = None  # a candidate topic is added if its centroid is less similar than this to every topic
 
+# Topic search of the website: export_site.py embeds each topic's label, description and keywords with SEARCH_MODEL, and
+# the browser embeds the visitor's query with SEARCH_MODEL_WEB (the same model as ONNX, run by transformers.js) after
+# SEARCH_QUERY_PREFIX (the model's instruction for short queries). Small enough (~35 MB) to download in a browser.
+SEARCH_MODEL = 'BAAI/bge-small-en-v1.5'
+SEARCH_MODEL_WEB = 'Xenova/bge-small-en-v1.5'
+SEARCH_QUERY_PREFIX = 'Represent this sentence for searching relevant passages: '
+
 # Claude model of the AI-written texts (labels.py, newsletter.py), run headless through the `claude` CLI (ai.py)
 CLAUDE_MODEL = 'claude-opus-5-5'
 # A broad topic gets its own newsletter section with at least this many of the week's papers; the rest share one

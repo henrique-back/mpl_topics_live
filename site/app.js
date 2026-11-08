@@ -107,7 +107,7 @@ function renderHeader() {
   document.querySelectorAll('.min-age').forEach((e) => { e.textContent = m.thresholds.min_citation_age; });
   document.querySelectorAll('.min-gini').forEach((e) => { e.textContent = m.thresholds.min_gini_papers; });
   const values = { n_papers: fmt(m.n_papers), encoder: m.quality.encoder, labels_model: m.labels_model,
-    outlier_share: pct(m.outlier_share), no_basin_share: pct(1 - located) };
+    outlier_share: pct(m.outlier_share), no_basin_share: pct(1 - located), search_model: m.search_model };
   document.querySelectorAll('[data-meta]').forEach((e) => { e.textContent = values[e.dataset.meta] ?? ''; });
   $('footer').innerHTML = `Data updated ${esc(m.updated)} · topics version ${esc(m.version)} · paper data from Scopus.
     Topic names and the newsletter are AI-generated.`;
@@ -149,6 +149,7 @@ function renderControls() {
 }
 
 function setupControls() {
+  setupSearch();
   document.querySelectorAll('#level-switch button').forEach((b) => b.addEventListener('click', () => {
     const to = b.dataset.level;
     const coarser = LEVELS.indexOf(to) < LEVELS.indexOf(state.level);
@@ -166,6 +167,137 @@ function setupControls() {
     document.querySelectorAll('#time-mode button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
     renderOverTime();
   }));
+}
+
+// ---------------------------------------------------------------------------------------------- explore: search
+/* Topics are ranked by the cosine similarity of the query's embedding with the topics' (data/search.json, written by
+   export_site.py), computed in the browser by transformers.js, plus a bonus for the query's words in the topic's text.
+   The model loads on the first focus of the search box; until it has (or if it fails), only word matches are shown. */
+const TRANSFORMERS = 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1/dist/transformers.min.js';
+const SEARCH_RESULTS = 8;
+const WORD_BONUS = 0.1;  // added to the similarity per share of the query's words found in the topic's name
+const search = { index: null, embed: null, loading: null, failed: false, results: [], active: -1, ticket: 0, semantic: false };
+
+const words = (s) => String(s).toLowerCase().match(/[\p{L}\p{N}]+/gu) || [];
+
+function loadSearch() {
+  if (!search.loading) {
+    search.loading = (async () => {
+      const s = await getJSON('data/search.json');
+      const bytes = Uint8Array.from(atob(s.vectors), (c) => c.charCodeAt(0));
+      const all = new Int8Array(bytes.buffer);
+      search.index = s.topics.map(([level, id], i) => {
+        const v = all.subarray(i * s.dim, (i + 1) * s.dim);
+        return { level, id, v, norm: Math.hypot(...v) };
+      });
+      const { pipeline, env } = await import(TRANSFORMERS);
+      env.allowLocalModels = false;
+      const extractor = await pipeline('feature-extraction', s.model, { dtype: 'q8' });
+      search.embed = async (q) => (await extractor(s.query_prefix + q, { pooling: 'cls', normalize: true })).data;
+    })().catch((e) => { search.failed = true; console.warn('Topic search: ranking by meaning unavailable', e); })
+      .finally(() => { if ($('topic-search').value.trim()) runSearch(); });
+  }
+  return search.loading;
+}
+
+/** Share of the query's words found in the topic: a whole word (or a word starting with a query word of 3+ letters)
+    of its name counts 1, of its description or keywords 0.5. */
+function wordMatch(query, t) {
+  const name = words(t.label);
+  const rest = words(`${t.description} ${t.keywords}`);
+  const hit = (ws, w) => ws.some((x) => x === w || (w.length >= 3 && x.startsWith(w)));
+  return query.length ? sum(query.map((w) => (hit(name, w) ? 1 : hit(rest, w) ? 0.5 : 0))) / query.length : 0;
+}
+
+async function runSearch() {
+  const text = $('topic-search').value.trim();
+  const ticket = ++search.ticket;
+  if (!text) { search.results = []; renderSearch(); return; }
+  const query = words(text);
+  const candidates = search.index || LEVELS.flatMap((level) => topicsAt(level).map((t) => ({ level, id: t.id })));
+  let q = null;
+  if (search.embed) {
+    try { q = await search.embed(text); } catch (e) { console.warn('Topic search', e); }
+  }
+  if (ticket !== search.ticket) return;  // a newer search has started
+  let rows = candidates.map((c) => {
+    const match = wordMatch(query, topic(c.level, c.id));
+    if (!q) return { ...c, match, score: match };
+    let dot = 0;
+    for (let k = 0; k < q.length; k++) dot += q[k] * c.v[k];
+    return { ...c, match, score: dot / c.norm + WORD_BONUS * match };
+  });
+  if (!q) rows = rows.filter((r) => r.match > 0);
+  rows.sort((a, b) => b.score - a.score || topic(b.level, b.id).n - topic(a.level, a.id).n);
+  const seen = new Set();  // a name repeated at two levels: keep the better ranked
+  search.results = rows.filter((r) => !seen.has(label(r.level, r.id)) && seen.add(label(r.level, r.id))).slice(0, SEARCH_RESULTS);
+  search.semantic = q != null;
+  search.active = search.results.length ? 0 : -1;
+  renderSearch();
+}
+
+function renderSearch() {
+  const input = $('topic-search');
+  const open = document.activeElement === input && input.value.trim() !== '';
+  $('search-panel').hidden = !open;
+  input.setAttribute('aria-expanded', String(open));
+  if (!open) { input.removeAttribute('aria-activedescendant'); return; }
+  const n = search.results.length;
+  const loading = !search.embed && !search.failed;
+  $('search-status').textContent = search.semantic ? 'Topics closest in meaning to your search'
+    : loading ? (n ? 'Topics using these words. Loading the search by meaning…' : 'Loading the search by meaning…')
+      : (n ? 'Topics using these words' : 'No topic uses these words');
+  $('search-results').innerHTML = search.results.map((r, i) => {
+    const t = topic(r.level, r.id);
+    const broad = r.level === 'coarse' ? null : label('coarse', ancestor(r.level, r.id, 'coarse'));
+    return `<li role="option" id="search-option-${i}" data-i="${i}" aria-selected="${i === search.active}">
+      <div class="name">${esc(t.label)}</div>
+      <div class="meta">${LEVEL_NAMES[r.level]} topic · ${fmt(t.n)} papers${broad && broad !== t.label ? ` · in ${esc(broad)}` : ''}</div>
+      <div class="desc">${esc(t.description)}</div></li>`;
+  }).join('');
+  if (search.active >= 0) {
+    input.setAttribute('aria-activedescendant', `search-option-${search.active}`);
+    $(`search-option-${search.active}`).scrollIntoView({ block: 'nearest' });
+  } else input.removeAttribute('aria-activedescendant');
+}
+
+function chooseResult(i) {
+  const r = search.results[i];
+  if (!r) return;
+  $('topic-search').blur();
+  renderSearch();
+  state.sunRoot = null;
+  select(r.level, r.id);
+}
+
+function setupSearch() {
+  const input = $('topic-search');
+  let timer;
+  input.addEventListener('focus', () => { loadSearch(); renderSearch(); });
+  input.addEventListener('input', () => { loadSearch(); clearTimeout(timer); timer = setTimeout(runSearch, 120); });
+  input.addEventListener('blur', () => setTimeout(renderSearch, 0));
+  input.addEventListener('keydown', (e) => {
+    const n = search.results.length;
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      if (!n) return;
+      e.preventDefault();
+      search.active = (search.active + (e.key === 'ArrowDown' ? 1 : n - 1)) % n;
+      renderSearch();
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      chooseResult(search.active);
+    } else if (e.key === 'Escape' && !$('search-panel').hidden) {
+      e.preventDefault();  // close, keeping the text (the browser's default clears it)
+      input.blur();
+    }
+  });
+  // mousedown, not click: it comes before the input's blur closes the panel
+  $('search-results').addEventListener('mousedown', (e) => {
+    const li = e.target.closest('li[data-i]');
+    if (!li) return;
+    e.preventDefault();
+    chooseResult(Number(li.dataset.i));
+  });
 }
 
 // ---------------------------------------------------------------------------------------------- explore: charts

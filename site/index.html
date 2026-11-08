@@ -56,6 +56,16 @@
           <button type="button" data-level="fine">Detailed</button>
         </div>
       </div>
+      <div class="search" id="search">
+        <label for="topic-search">Search topics</label><br>
+        <input type="search" class="topic-search" id="topic-search" placeholder="e.g. fish, human health, AI"
+          autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="search-results"
+          aria-autocomplete="list">
+        <div class="search-panel" id="search-panel" hidden>
+          <div class="search-status" id="search-status" aria-live="polite"></div>
+          <ul class="search-results" id="search-results" role="listbox" aria-label="Matching topics"></ul>
+        </div>
+      </div>
       <div style="flex: 1 1 280px; min-width: 0;">
         <label for="topic-select">Topic</label><br>
         <select class="topic-select" id="topic-select"></select>
@@ -172,6 +182,9 @@
         different ages, citations are divided by the paper's age, and papers younger than
         <span class="min-age"></span> years are left out of citation analyses.</li>
     </ol>
+    <p>The topic search compares the meaning of a search with each topic's name, description and characteristic words,
+      using a small language model (<span data-meta="search_model"></span>) that runs in your browser, so searches are
+      not sent anywhere. It finds topics, not individual papers or places.</p>
 
     <h2>How reliable are the topics?</h2>
     <div id="quality"></div>

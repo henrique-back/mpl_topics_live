@@ -11,11 +11,14 @@ layout of layout.py and the run records, and writes to site/data/:
                         and year (cells with >= MIN_GINI_PAPERS rated papers), cumulative citation curves
   basins.json           papers per basin, and per basin and year
   map.json              the paper map: x, y and fine topic of each paper (no ids)
+  search.json           the topic search: an embedding (config.SEARCH_MODEL, int8, base64) of each topic's label,
+                        description and keywords, for the browser to compare with the query's (config.SEARCH_MODEL_WEB)
   geo/basins.geojson    the ocean basins, dissolved from the 1-degree grid of ner.py with its MERGE_CLASSES
   geo/land.geojson      the land masses (Natural Earth 1:50m), simplified
 
 The newsletter (site/data/newsletter/) is written by newsletter.py.
 """
+import base64
 import json
 
 import geopandas as gpd
@@ -23,6 +26,7 @@ import numpy as np
 import pandas as pd
 import shapely
 from scipy.spatial import cKDTree
+from sentence_transformers import SentenceTransformer
 from shapely.geometry import box
 
 import config
@@ -95,6 +99,28 @@ def export_taxonomy(papers, major):
     write('taxonomy.json', {'version': taxonomy.current_version(), 'levels': levels,
                             'parents': parents.astype(int).values.tolist(),
                             'outliers': int((papers['fine'] == -1).sum())})
+    return levels, parents
+
+
+def export_search(levels, parents):
+    """Embeddings of the topics for the site's search. A topic that is its parent's only child has the same papers,
+    so only the coarser of the two is searchable."""
+    searchable = []
+    for i, level in enumerate(LEVELS):
+        only_child = set()
+        if i:
+            above = parents[[LEVELS[i - 1], level]].drop_duplicates()
+            n_children = above[LEVELS[i - 1]].map(above[LEVELS[i - 1]].value_counts())
+            only_child = set(above.loc[n_children == 1, level])
+        searchable += [(level, t) for t in levels[level] if t['id'] not in only_child]
+    texts = [f"{t['label']}. {t['description']} Keywords: {t['keywords']}" for _, t in searchable]
+    model = SentenceTransformer(config.SEARCH_MODEL, device='cpu')
+    vectors = model.encode(texts, normalize_embeddings=True)
+    # int8, each vector scaled by its largest component: cosine similarities change by < 0.01, and the file is small
+    q = np.round(vectors / np.abs(vectors).max(axis=1, keepdims=True) * 127).astype(np.int8)
+    write('search.json', {'model': config.SEARCH_MODEL_WEB, 'query_prefix': config.SEARCH_QUERY_PREFIX,
+                          'dim': q.shape[1], 'topics': [[level, t['id']] for level, t in searchable],
+                          'vectors': base64.b64encode(q.tobytes()).decode()})
 
 
 def export_level(papers, level, last_year):
@@ -202,7 +228,7 @@ def export_meta(papers, major, last_year):
         'n_rated': int(papers['rate'].notna().sum()),
         'outlier_share': num((papers['fine'] == -1).mean()),
         'n_topics': {level: int(papers.loc[papers[level] != -1, level].nunique()) for level in LEVELS},
-        'version': taxonomy.current_version(), 'labels_model': config.CLAUDE_MODEL,
+        'version': taxonomy.current_version(), 'labels_model': config.CLAUDE_MODEL, 'search_model': config.SEARCH_MODEL,
         'quality': {'runs': params.get('consensus', {}).get('runs'),
                     'split_half': params.get('consensus', {}).get('split_half'),
                     'fit': params.get('fit'), 'encoder': config.EMBEDDING_MODEL},
@@ -220,7 +246,8 @@ def main():
     papers = load_papers(major)
     print(f"Exporting the site data of {len(papers)} papers ({taxonomy.current_version()})")
     export_meta(papers, major, last_year)
-    export_taxonomy(papers, major)
+    levels, parents = export_taxonomy(papers, major)
+    export_search(levels, parents)
     for level in LEVELS:
         export_level(papers, level, last_year)
     export_basins(papers, last_year)
