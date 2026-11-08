@@ -1,5 +1,5 @@
 """Data of the public website (site/, served by GitHub Pages): small JSON files of aggregates, no per-paper records
-except the anonymous points of the paper map (x, y and topic).
+except the anonymous points of the paper map (x, y and topic) and each topic's few listed papers (papers.json).
 
 Reads the current taxonomy (topics, AI labels of labels.py, hierarchy), the basins of ner.py, the citations, the 2-D
 layout of layout.py and the run records, and writes to site/data/:
@@ -11,6 +11,9 @@ layout of layout.py and the run records, and writes to site/data/:
                         and year (cells with >= MIN_GINI_PAPERS rated papers), cumulative citation curves
   basins.json           papers per basin, and per basin and year
   map.json              the paper map: x, y and fine topic of each paper (no ids)
+  papers.json           per level and topic, the TOPIC_PAPERS most cited papers (citations per year, papers old enough
+                        to be rated) and newest papers (by date fetched, added.csv; before that record, by Scopus EID,
+                        which grows with the date Scopus loaded the paper): title, journal, year, link, rate, date added
   search.json           the topic search: an embedding (config.SEARCH_MODEL, int8, base64) of each topic's label,
                         description and keywords, for the browser to compare with the query's (config.SEARCH_MODEL_WEB)
   geo/basins.geojson    the ocean basins, dissolved from the 1-degree grid of ner.py with its MERGE_CLASSES
@@ -39,6 +42,7 @@ OUT = config.SITE_DATA_DIR
 LEVELS = ['coarse', 'mid', 'fine']
 NO_BASIN = 'No basin'
 LORENZ_POINTS = 51
+TOPIC_PAPERS = 5  # papers in each of a topic's two lists (most cited, newest)
 LAND_SHAPEFILE = config.MAPS_DIR / 'world map' / 'ne_50m_land.shp'
 # Display names of the basins (the classification's own names are abbreviated)
 BASIN_DISPLAY = {'Mediteranean': 'Mediterranean Sea', 'Equatorial Pac': 'Equatorial Pacific',
@@ -69,12 +73,16 @@ def lorenz(rates):
 
 
 def load_papers(major):
-    data = pd.read_csv(config.ALLDATA, usecols=['DOI', 'Link', 'Year'])
+    data = pd.read_csv(config.ALLDATA, usecols=['DOI', 'Link', 'Year', 'Title', 'Source title'])
     data['paper_id'] = config.paper_ids(data)
     fine = data['paper_id'].map(taxonomy.load_assignments(major).set_index('paper_id')['topic'])
     if fine.isna().any():
         raise SystemExit(f"{fine.isna().sum()} papers have no topic; run assign.py")
-    papers = data[['paper_id', 'Year']].copy()
+    papers = data[['paper_id', 'Year', 'Title', 'Source title']].copy()
+    papers['url'] = ('https://doi.org/' + data['DOI'].str.strip()).fillna(data['Link'])
+    papers['eid'] = config.eids(data['Link']).str.extract(r'(\d+)$', expand=False).astype(float)
+    added = pd.read_csv(config.ADDED) if config.ADDED.exists() else pd.DataFrame(columns=['paper_id', 'added_on'])
+    papers['added_on'] = papers['paper_id'].map(added.set_index('paper_id')['added_on'])
     papers['fine'] = fine.astype(int).to_numpy()
     for level in ['mid', 'coarse']:
         papers[level] = taxonomy.level_topics(papers['fine'].to_numpy(), level, major)
@@ -177,6 +185,30 @@ def export_map(papers, major):
                        'topic': papers.loc[keep, 'fine'].astype(int).tolist()})
 
 
+def export_papers(papers):
+    """Each topic's most cited and newest papers. A paper listed by several topics (a fine topic and its parents) is
+    stored once in `papers`; the lists hold indices into it."""
+    counted = papers[papers['fine'] != -1]
+    cited = counted[counted['rate'].notna()].sort_values('rate', ascending=False)
+    newest = counted.sort_values(['added_on', 'eid'], ascending=False, na_position='last')
+    rows, index = [], {}
+
+    def ref(i):
+        if i not in index:
+            p = papers.loc[i]
+            index[i] = len(rows)
+            rows.append([p['Title'], None if pd.isna(p['Source title']) else p['Source title'], int(p['Year']),
+                         p['url'], num(p['rate'], 1), None if pd.isna(p['added_on']) else p['added_on']])
+        return index[i]
+
+    lists = {level: {str(int(t)): {'cited': [ref(i) for i in cited.index[cited[level] == t][:TOPIC_PAPERS]],
+                                   'new': [ref(i) for i in newest.index[newest[level] == t][:TOPIC_PAPERS]]}
+                     for t in counted[level].unique()}
+             for level in LEVELS}
+    write('papers.json', {'fields': ['title', 'journal', 'year', 'url', 'rate', 'added_on'], 'papers': rows,
+                          'topics': lists})
+
+
 def export_geo():
     """The ocean basins (merged classes, named as the papers' basins) and the land, as GeoJSON."""
     grid = read_basin_grid()
@@ -252,6 +284,7 @@ def main():
         export_level(papers, level, last_year)
     export_basins(papers, last_year)
     export_map(papers, major)
+    export_papers(papers)
     export_geo()
 
 

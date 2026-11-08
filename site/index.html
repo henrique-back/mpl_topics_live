@@ -10,6 +10,17 @@
 </head>
 <body>
 <header class="site">
+  <div class="menu-bar">
+    <div class="wrap menu">
+      <nav class="tabs" aria-label="Sections">
+        <a href="#week" data-tab="week">This week</a>
+        <a href="#explore" data-tab="explore">Explore the research</a>
+        <a href="#methods" data-tab="methods">Methods</a>
+        <a href="#about" data-tab="about">About</a>
+      </nav>
+      <button class="theme-toggle" id="theme-toggle" type="button"><span class="theme-word">Theme: </span>auto</button>
+    </div>
+  </div>
   <div class="wrap">
     <div class="top">
       <div>
@@ -18,15 +29,8 @@
           Every week, newly published papers are added, sorted into research topics and located in the world's ocean
           basins.</p>
       </div>
-      <button class="theme-toggle" id="theme-toggle" type="button">Theme: auto</button>
+      <div class="tiles" id="tiles"></div>
     </div>
-    <div class="tiles" id="tiles"></div>
-    <nav class="tabs" aria-label="Sections">
-      <a href="#week" data-tab="week">This week</a>
-      <a href="#explore" data-tab="explore">Explore the research</a>
-      <a href="#methods" data-tab="methods">Methods</a>
-      <a href="#about" data-tab="about">About</a>
-    </nav>
   </div>
 </header>
 
@@ -73,7 +77,7 @@
       </div>
     </div>
 
-    <div class="grid-2">
+    <div class="grid-2 topics-layout">
       <div class="card">
         <h2>Research topics</h2>
         <p class="how">The papers are grouped into topics at three levels of detail: the inner ring holds the broad
@@ -88,7 +92,7 @@
       <h2>The map of the research</h2>
       <p class="how">Each dot is a paper, placed so that papers with similar abstracts lie close together. The
         selected topic is highlighted; the labels mark where each topic lies. Distances between distant groups mean
-        little, only neighbourhoods do. Click a dot to select its topic.</p>
+        little, only neighbourhoods do.</p>
       <div class="chart tall" id="paper-map"></div>
     </div>
 
@@ -107,13 +111,13 @@
       <div class="card">
         <h2>Where in the ocean</h2>
         <p class="how">Papers per ocean basin, from the places named in their abstracts. Darker basins have more
-          papers (of the selected topic, or of all topics). Click a basin to see its topics.
+          papers (of the selected topic, or of all topics).
           <span id="no-basin-note"></span></p>
         <div class="chart" id="basin-map"></div>
       </div>
       <div class="card">
         <h2 id="basin-topics-title">Topics in a basin</h2>
-        <p class="how">The topics with the most papers in the chosen basin. Click a bar to select the topic.</p>
+        <p class="how">The topics with the most papers in the chosen basin.</p>
         <div class="chart" id="basin-topics"></div>
       </div>
     </div>

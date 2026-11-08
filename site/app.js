@@ -80,13 +80,13 @@ function select(level, id) {
 
 // ---------------------------------------------------------------------------------------------- loading
 async function load() {
-  const [meta, taxonomy, coarse, mid, fine, basins, map, geoBasins, land, issues] = await Promise.all([
+  const [meta, taxonomy, coarse, mid, fine, basins, map, geoBasins, land, issues, papers] = await Promise.all([
     getJSON('data/meta.json'), getJSON('data/taxonomy.json'), getJSON('data/levels/coarse.json'),
     getJSON('data/levels/mid.json'), getJSON('data/levels/fine.json'), getJSON('data/basins.json'),
     getJSON('data/map.json'), getJSON('data/geo/basins.geojson'), getJSON('data/geo/land.geojson'),
-    getJSON('data/newsletter/index.json', []),
+    getJSON('data/newsletter/index.json', []), getJSON('data/papers.json', null),
   ]);
-  Object.assign(D, { meta, taxonomy, basins, map, issues });
+  Object.assign(D, { meta, taxonomy, basins, map, issues, papers });
   D.levels = { coarse, mid, fine };
   D.topicIndex = Object.fromEntries(LEVELS.map((l) => [l, new Map(taxonomy.levels[l].map((t) => [t.id, t]))]));
   D.parents = new Map(taxonomy.parents.map(([f, m, c]) => [f, [c, m, f]]));  // indexed like LEVELS
@@ -100,9 +100,7 @@ function renderHeader() {
   const located = m.n_located / m.n_papers;
   $('tiles').innerHTML = [
     [fmt(m.n_papers), 'papers reviewed'],
-    [m.week ? fmt(m.n_week) : '–', m.week ? `added in the week of ${m.week}` : 'added this week'],
-    [`${m.n_topics.coarse} · ${m.n_topics.mid} · ${m.n_topics.fine}`, 'research topics (broad · medium · detailed)'],
-    [pct(located), 'located in an ocean basin'],
+    [m.week ? fmt(m.n_week) : '–', m.week ? `added in the week of <span class="nowrap">${m.week}</span>` : 'added this week'],
   ].map(([v, l]) => `<div class="tile"><div class="value">${v}</div><div class="label">${l}</div></div>`).join('');
   document.querySelectorAll('.min-age').forEach((e) => { e.textContent = m.thresholds.min_citation_age; });
   document.querySelectorAll('.min-gini').forEach((e) => { e.textContent = m.thresholds.min_gini_papers; });
@@ -119,7 +117,7 @@ async function renderWeek() {
   if (!issues.length) {
     $('issue').innerHTML = `<div class="card empty"><h2>No issue yet</h2>
       <p>The first weekly issue will appear after the next update, which runs every Monday.</p></div>`;
-    $('archive').innerHTML = '<li class="muted">None yet</li>';
+    $('archive').innerHTML = '<li class="secondary">None yet</li>';
     return;
   }
   const wanted = (location.hash.match(/^#week\/(\d{4}-\d{2}-\d{2})$/) || [])[1];
@@ -133,7 +131,7 @@ async function renderWeek() {
       ${markdown(s.text)}`).join('');
   const also = issue.also && issue.also.trim() ? `<h3>Also this week</h3><div class="topic-tag">${fmt(issue.n_also)} papers in other topics</div>${markdown(issue.also)}` : '';
   $('issue').innerHTML = `<article class="issue">
-      <div class="muted">Week of ${esc(issue.date)} · ${fmt(issue.n_papers)} new papers</div>
+      <div class="secondary">Week of ${esc(issue.date)} · ${fmt(issue.n_papers)} new papers</div>
       <h2>${esc(issue.title)}</h2>${markdown(issue.overview)}${sections}${also}</article>`;
   $('issue').querySelectorAll('[data-topic]').forEach((b) => b.addEventListener('click', () => {
     state.sunRoot = null;
@@ -328,7 +326,7 @@ function tooltip(extra) {
 }
 function axisStyle(extra) {
   return { axisLine: { lineStyle: { color: css('--axis') } }, axisTick: { show: false },
-    axisLabel: { color: css('--muted') }, splitLine: { lineStyle: { color: css('--grid') } }, ...extra };
+    axisLabel: { color: css('--ink-2') }, splitLine: { lineStyle: { color: css('--grid') } }, ...extra };
 }
 /** Colour of a mark of topic `id`: the accent when selected, or when nothing is selected and `alone`. */
 function markColor(id, alone = false) {
@@ -404,14 +402,30 @@ function topicStats(id) {
     located: n ? 1 - noBasin / n : null, topBasin: L.basins[k], median: L.median_rate[i], gini: L.gini_topic[i] };
 }
 
+/** The topic's most cited and newest papers (data/papers.json), as two linked lists; empty without the file. */
+function topicPapers(level, id) {
+  const lists = D.papers && D.papers.topics[level][id];
+  if (!lists) return '';
+  const item = (i, meta) => {
+    const [title, journal, year, url, rate, added] = D.papers.papers[i];
+    const details = [journal, year, meta(rate, added)].filter(Boolean).map(esc).join(' · ');
+    return `<li><a href="${esc(url)}" target="_blank" rel="noopener">${esc(title)}</a><div class="meta">${details}</div></li>`;
+  };
+  const list = (title, ids, meta) => (ids.length ? `<h3>${title}</h3>
+      <ol class="paper-list">${ids.map((i) => item(i, meta)).join('')}</ol>` : '');
+  return `<div class="topic-papers">
+    ${list('Most cited', lists.cited, (rate) => `${rate.toFixed(1)} citations a year`)}
+    ${list('New papers', lists.new, (rate, added) => (added ? `added ${added}` : ''))}
+  </div>`;
+}
+
 function renderTopicCard() {
   const card = $('topic-card');
   const level = state.level;
   if (state.selected == null) {
     const top = topicsAt(level).slice(0, 12);
     card.innerHTML = `<h2>${LEVEL_NAMES[level]} topics</h2>
-      <p class="secondary">${topicsAt(level).length} topics at this level of detail. Select one in the chart, the list above or
-        below to see its numbers and highlight it in every chart.</p>
+      <p class="secondary">${topicsAt(level).length} topics at this level of detail.</p>
       <h3>Largest topics</h3><div class="chips">${top.map((t) => `<button class="chip" data-topic="${t.id}">${esc(t.label)}</button>`).join('')}</div>`;
   } else {
     const t = topic(level, state.selected);
@@ -431,9 +445,13 @@ function renderTopicCard() {
       </div>
       <div class="keywords">Characteristic words: ${esc(t.keywords)}</div>
       ${kids.length > 1 ? `<h3 style="margin-top:12px">Subtopics</h3><div class="chips">${kids.map((k) => `<button class="chip" data-level="${LEVELS[LEVELS.indexOf(level) + 1]}" data-topic="${k.id}">${esc(k.label)}</button>`).join('')}</div>` : ''}
+      ${topicPapers(level, state.selected)}
       <p style="margin-top:12px"><button class="linkish" id="clear-topic">Clear the selection</button></p>`;
     $('clear-topic').addEventListener('click', () => { state.sunRoot = null; select(level, null); });
   }
+  // The panel scrolls on its own: back to its top when another topic is shown, not on other re-renders
+  const shown = `${level}:${state.selected}`;
+  if (card.dataset.shown !== shown) { card.scrollTop = 0; card.dataset.shown = shown; }
   card.querySelectorAll('[data-topic]').forEach((b) => b.addEventListener('click', () => {
     const l = b.dataset.level || level;
     state.sunRoot = null;
@@ -499,7 +517,7 @@ function renderOverTime() {
     grid: { left: 48, right: state.selected != null && !narrow ? 170 : 16, top: 16, bottom: 28 },
     tooltip: tooltip({ trigger: 'item', formatter: (p) => `<b>${esc(p.seriesName)}</b><br>${p.name}: ${state.timeMode === 'share' ? pct(p.value, 1) : `${fmt(p.value)} papers`}` }),
     xAxis: axisStyle({ type: 'category', data: years, boundaryGap: false, splitLine: { show: false } }),
-    yAxis: axisStyle({ type: 'value', axisLabel: { color: css('--muted'), formatter: (v) => (state.timeMode === 'share' ? pct(v) : fmt(v)) } }),
+    yAxis: axisStyle({ type: 'value', axisLabel: { color: css('--ink-2'), formatter: (v) => (state.timeMode === 'share' ? pct(v) : fmt(v)) } }),
     series,
   }, true);
   c.off('click');
@@ -595,7 +613,7 @@ function renderImpact() {
     animation: false, textStyle: baseText(),
     grid: { left: 8, right: 24, top: 8, bottom: 24, containLabel: true },
     tooltip: tooltip({ trigger: 'item', formatter: (p) => `<b>${esc(label(state.level, p.data.id))}</b><br>Median ${p.value.toFixed(2)} citations per year (${fmt(p.data.n)} papers)` }),
-    xAxis: axisStyle({ type: 'value', name: 'citations per year', nameLocation: 'middle', nameGap: 24, nameTextStyle: { color: css('--muted') } }),
+    xAxis: axisStyle({ type: 'value', name: 'citations per year', nameLocation: 'middle', nameGap: 24, nameTextStyle: { color: css('--ink-2') } }),
     yAxis: axisStyle({ type: 'category', data: rows.map((r) => trunc(label(state.level, r.id), 34)), splitLine: { show: false }, axisLabel: { color: css('--ink-2'), interval: 0 } }),
     series: [{ type: 'bar', barMaxWidth: 14, data: rows.map((r) => ({ value: r.v, id: r.id, n: r.n, itemStyle: { color: markColor(r.id, true), borderRadius: [0, 4, 4, 0] } })) }],
   }, true);
@@ -612,16 +630,16 @@ function renderLorenz() {
       lineStyle: { width: on ? 2.5 : 1, color: markColor(r.id) }, z: on ? 10 : 2, emphasis: { focus: 'series' } };
   });
   series.push({ type: 'line', name: 'Perfect equality', data: [[0, 0], [1, 1]], symbol: 'none', silent: true,
-    lineStyle: { width: 1, color: css('--muted') },
-    endLabel: { show: true, formatter: 'equality', color: css('--muted'), fontSize: 11 } });
+    lineStyle: { width: 1, color: css('--axis') },
+    endLabel: { show: true, formatter: 'equality', color: css('--ink-2'), fontSize: 11 } });
   const c = chart('lorenz');
   c.setOption({
     animation: false, textStyle: baseText(),
     grid: { left: 48, right: 56, top: 16, bottom: 44 },
     tooltip: tooltip({ trigger: 'item', formatter: (p) => `<b>${esc(p.seriesName)}</b><br>The least-cited ${pct(p.value[0])} of papers get ${pct(p.value[1])} of the citations` }),
     xAxis: axisStyle({ type: 'value', min: 0, max: 1, name: 'share of papers, least cited first', nameLocation: 'middle', nameGap: 28,
-      nameTextStyle: { color: css('--muted') }, axisLabel: { color: css('--muted'), formatter: (v) => pct(v) } }),
-    yAxis: axisStyle({ type: 'value', min: 0, max: 1, axisLabel: { color: css('--muted'), formatter: (v) => pct(v) } }),
+      nameTextStyle: { color: css('--ink-2') }, axisLabel: { color: css('--ink-2'), formatter: (v) => pct(v) } }),
+    yAxis: axisStyle({ type: 'value', min: 0, max: 1, axisLabel: { color: css('--ink-2'), formatter: (v) => pct(v) } }),
     series,
   }, true);
   c.off('click');
@@ -650,7 +668,7 @@ function renderGini() {
     grid: { left: 48, right: 16, top: 28, bottom: 28 },
     title: { text: note, left: 'center', top: 0, textStyle: { fontSize: 12, fontWeight: 'normal', color: css('--ink-2') } },
     tooltip: tooltip({ trigger: 'item', formatter: (p) => `<b>${esc(p.seriesName)}</b><br>${p.value[0]}: Gini ${p.value[1].toFixed(2)} (${fmt(p.value[2])} papers)` }),
-    xAxis: axisStyle({ type: 'value', min: 'dataMin', max: 'dataMax', minInterval: 1, splitLine: { show: false }, axisLabel: { color: css('--muted'), formatter: (v) => String(v) } }),
+    xAxis: axisStyle({ type: 'value', min: 'dataMin', max: 'dataMax', minInterval: 1, splitLine: { show: false }, axisLabel: { color: css('--ink-2'), formatter: (v) => String(v) } }),
     yAxis: axisStyle({ type: 'value', min: 0, max: 1 }),
     series,
   }, true);
@@ -667,7 +685,7 @@ function renderTable() {
         <td class="num">${fmt(r.n)}</td><td class="num">${r.growth == null ? '–' : `${r.growth >= 0 ? '+' : ''}${pct(r.growth)}`}</td>
         <td class="num">${pct(r.located)}</td><td class="num">${r.median == null ? '–' : r.median.toFixed(2)}</td>
         <td class="num">${r.gini == null ? '–' : r.gini.toFixed(2)}</td></tr>`).join('')}</tbody></table>
-      <p class="muted" style="font-size:.8rem">* Papers published in ${rows.length ? rows[0].period : ''}. ${fmt(D.taxonomy.outliers)} papers fit no topic and are not listed.</p>`;
+      <p class="secondary" style="font-size:.8rem">* Papers published in ${rows.length ? rows[0].period : ''}. ${fmt(D.taxonomy.outliers)} papers fit no topic and are not listed.</p>`;
   $('topic-table').querySelectorAll('button[data-topic]').forEach((b) => b.addEventListener('click', () => {
     select(state.level, Number(b.dataset.topic));
     $('topic-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -743,7 +761,7 @@ const THEMES = ['auto', 'light', 'dark'];
 function applyTheme(theme) {
   if (theme === 'auto') document.documentElement.removeAttribute('data-theme');
   else document.documentElement.setAttribute('data-theme', theme);
-  $('theme-toggle').textContent = `Theme: ${theme}`;
+  $('theme-toggle').innerHTML = `<span class="theme-word">Theme: </span>${theme}`;
   storage('theme', theme);
   renderExplore();
 }
