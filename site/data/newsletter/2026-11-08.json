@@ -1,0 +1,81 @@
+{
+ "date": "2026-11-08",
+ "title": "From Himalayan riverbeds to roadside grills: where microplastics settle",
+ "n_papers": 28,
+ "overview": "Most of this week's 28 newly indexed papers are field measurements. Several come from places with little or no earlier data: mountain rivers in the Indian Himalaya, Lake Toba in Indonesia, a large bay in Brazil, roadside fish stalls in South Africa and the Gulf of California. One theme runs through them. Where microplastics end up depends on local physical conditions such as sediment grain size, rainfall, salinity and waves, and not only on how much plastic is released. Several studies link higher contamination to nearby people, roads or towns. These are associations, though, and the actual sources are still unconfirmed. On solutions, a laboratory method for removing microplastics from salty water looked promising under controlled conditions. A group of book chapters reviews nanotechnology, policy and community action but presents no new data. A study in Hawai‘i found that small convergence zones near the coast, where currents meet, can hold far more floating plastic than ocean garbage patches. Those spots could be useful targets for clean-up.",
+ "sections": [
+  {
+   "topic": 6,
+   "label": "Plastic breakdown, removal and recycling",
+   "heading": "Lab-tested removal methods and models for plastic-to-power",
+   "text": "The most concrete removal result this week comes from a laboratory study using coagulants, substances that make tiny particles clump together and sink. The coagulants were made from the bark of the Brazilian pequi tree, with kaolin clay added as a weight. A version coated with magnetic iron oxide particles was predicted to remove about 80% of polyethylene microplastics in [moderately salty water](https://doi.org/10.1016/j.psep.2026.109808). Polyethylene is a light plastic that floats and is hard to separate from water. This version also worked in real coastal water without raising iron levels, and it could be reused several times. A second version of the coagulant performed worse in real seawater. In a separate computer-modelling study, marine plastic would be converted to power using very hot, high-pressure water, combined with burning microalgae. The model estimated about 55% energy efficiency and a net climate benefit. These figures hold only under the study's own assumptions, and no plant has been built. Two book chapters review nanoparticles made by microbes or plants as cleaner clean-up tools, but they describe potential rather than test results.",
+   "n_papers": 4
+  },
+  {
+   "topic": 7,
+   "label": "Microbes living on plastic debris",
+   "heading": "Plastic-dwelling microbes shift as rivers meet the sea",
+   "text": "As microplastics travel, they carry thin films of microbes on their surfaces. A laboratory experiment used water from a river, an estuary and the sea in southern China. Each time particles moved from river to estuary, or from estuary to sea, the microbial film [lost biomass within three hours](https://doi.org/10.1016/j.marenvres.2026.108504). More groups of microbes also differed in abundance on plastic surfaces in seawater than in river water. This suggests that changes in salinity may briefly disrupt these communities on the way to the ocean. A second laboratory study used river sediments to look at nitrogen cycling, the way sediment microbes process this nutrient. How microplastics affected nitrogen cycling depended on the type of plastic (conventional polyvinyl chloride versus biodegradable polylactic acid). It also depended on water conditions such as repeated drying and rewetting. A third paper, about decomposing Sargassum seaweed rather than plastic, found that microbes broke the seaweed down quickly. This released phosphorus that may add to nutrient pollution on coasts.",
+   "n_papers": 3
+  },
+  {
+   "topic": 0,
+   "label": "Microplastics in rivers and reservoirs",
+   "heading": "Fine sediments and rainy seasons hold more microplastics",
+   "text": "Two freshwater field studies from places with little earlier data suggest that physical conditions shape where microplastics collect. In four rivers of the Indian Himalaya, average levels were 7 to 29 particles per gram of riverbed sediment, mostly tiny fragments of 5 to 20 micrometres. Particles tended to be [more abundant in finer sediment](https://doi.org/10.1016/j.ancene.2026.100599), but the pattern was statistically clear in only one of the four rivers. At Lake Toba in Indonesia, the first lake-wide survey to cover both seasons found [several times more microplastics in the rainy season](https://doi.org/10.1155/sci5/3525274) than in the dry season, in both surface water and nearshore sediment. Hotspots in the water and in the sediment were in different parts of the lake. Both teams treat tourism, aquaculture and fishing as possible sources that have not been confirmed. A review of computer models that track particles in estuaries finds that particle shape, beaching and stirring-up from the seabed are still poorly represented.",
+   "n_papers": 4
+  },
+  {
+   "topic": 1,
+   "label": "Microplastics eaten by marine fish",
+   "heading": "Fish and shellfish contamination tracks people and roads",
+   "text": "In Todos os Santos Bay, Brazil, clams, oysters and mussels held 2.4 to 3.2 microplastics per gram on average, above the Brazilian average for bivalves. The bay is a protected area with more than three million residents nearby, and [contamination in oysters rose with local population density](https://doi.org/10.1016/j.jhazmat.2026.144109). In Limpopo Province, South Africa, grilled fish sold by roadside vendors contained about 105 to 470 particles per kilogram of muscle. That works out to an estimated 180 to 790 particles per meal, with the highest values at [stalls next to busy roads](https://doi.org/10.1007/s00244-026-01223-3). At several stalls, some metals were also above international food-safety limits. In the Gulf of California, 82% of 114 starry round rays had swallowed human-made fibres. Most of these fibres were cotton or cellulose rather than synthetic plastic. Fibres were common in all three studies, and cellulose also made up much of the material in the Brazilian shellfish. The authors say that the specific sources still need to be confirmed.",
+   "n_papers": 3
+  },
+  {
+   "topic": 4,
+   "label": "Plastic waste policy and public action",
+   "heading": "Policy reviews outnumber new evidence on waste governance",
+   "text": "Four of this week's five policy papers are chapters from one book on plastic remediation. They review where plastic waste comes from, rules on single-use plastics, recycling technologies and community-led initiatives. The chapters agree on the main obstacles: weak recycling infrastructure, limited enforcement and low public awareness. They argue that bans, awareness campaigns and local action should be combined with national and global rules. One chapter notes that only 9% of the plastic produced in 2019 was recycled. These chapters summarize existing knowledge and do not present new data. The one study with new data looked at [fishery waste in Sanmen Bay, China](https://doi.org/10.5276/jswtm/iswmaw/522/2026.578) from 2014 to 2024, including leftover feed, fish waste and abandoned fishing gear. The bay's aquaculture environment stayed in an 'early warning' state. Heavy metals, the amount of marine debris and the locations of sewage outlets were the main problems, and the authors project these pressures will continue to 2030. They suggest cutting feed waste, treating wastewater with settling tanks and artificial wetlands, and reusing waste.",
+   "n_papers": 5
+  }
+ ],
+ "also": "Other papers this week add to the picture. Two years of surveys at Makai Pier in Hawai‘i found up to about 7,600 microplastic particles per square metre in [small nearshore patches where currents meet](https://doi.org/10.1088/2515-7620/aeadf4). That is far more than in open-ocean garbage patches, and the highest concentrations came with large waves. These patches could offer predictable spots for clean-up. On remote Trindade Island in the South Atlantic, plastics made up 82% of beach litter, and sheltered beaches collected the most. In Brazil's São Francisco River estuary, the plastic additive bisphenol A was found in every water sample. Caribbean zooplankton appeared to accumulate microplastics. Reviews covered microplastics in the air over the ocean, ways to detect buried plastic, and methods for measuring particles worn off tyres.",
+ "n_also": 9,
+ "cited": [
+  {
+   "doi": "10.1007/s00244-026-01223-3",
+   "title": "Assessment of Microplastic and Element Contamination in Fish Sold by Informal Roadside Vendors in Limpopo Province, South Africa"
+  },
+  {
+   "doi": "10.1016/j.ancene.2026.100599",
+   "title": "Sediment grain-size sorting influences microplastic partitioning in Himalayan rivers"
+  },
+  {
+   "doi": "10.1016/j.jhazmat.2026.144109",
+   "title": "Microplastics in a large Brazilian bay: Multispecies bivalve approach reveals an association with population density"
+  },
+  {
+   "doi": "10.1016/j.marenvres.2026.108504",
+   "title": "Effects of environmental changes in the water column on microbial communities on microplastic surfaces during ocean entry"
+  },
+  {
+   "doi": "10.1016/j.psep.2026.109808",
+   "title": "Microplastic removal under different salinity levels using kaolin-assisted coagulation with modified Caryocar brasiliense coagulants"
+  },
+  {
+   "doi": "10.1088/2515-7620/aeadf4",
+   "title": "Investigating hydrodynamic and environmental influences on the concentration of marine debris in a nearshore, finescale convergence phenomenon"
+  },
+  {
+   "doi": "10.1155/sci5/3525274",
+   "title": "Spatiotemporal Patterns of Microplastic Distribution in Surface Water and Nearshore Sediments of a Large Tropical Lake: Evidence From Lake Toba, Indonesia"
+  },
+  {
+   "doi": "10.5276/jswtm/iswmaw/522/2026.578",
+   "title": "Evaluation of the Impact of Marine fishery Wastes on Ecological Aquaculture based on DPSIR and Barrier degree Analysis"
+  }
+ ],
+ "model": "claude-opus-5-5",
+ "taxonomy": "v2.0"
+}

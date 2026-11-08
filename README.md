@@ -11,11 +11,12 @@ The code relies on publicly available libraries, notably scikit-learn, BERTopic 
 ## Table of Contents
 
 1. [Installation](#installation)
-2. [Usage](#usage)
-3. [Data](#data)
-4. [Ocean basin classification (NER)](#ocean-basin-classification-ner)
-5. [Topic modelling](#topic-modelling)
-6. [Results](#results)
+2. [Run your own version](#run-your-own-version)
+3. [Usage](#usage)
+4. [Data](#data)
+5. [Ocean basin classification (NER)](#ocean-basin-classification-ner)
+6. [Topic modelling](#topic-modelling)
+7. [Results](#results)
 
 ## Installation
 
@@ -38,6 +39,20 @@ pip install -r requirements.txt
 ```
 
 The exact versions used are listed in `requirements.txt`. Newer pandas (3.x) and matplotlib (3.9+) releases remove functions the pipeline uses, so keep the pinned versions.
+
+## Run your own version
+
+The pipeline can follow any field of research, not just microplastics. You need:
+
+- an **Elsevier (Scopus) API key** and institutional token ([dev.elsevier.com](https://dev.elsevier.com)), and a free **GeoNames** account, both set in `configurations.ini` (copy `configurations.ini.example`);
+- the **[Claude Code](https://claude.com/claude-code) CLI** (`claude`), logged in with a Claude subscription: it writes the topic names and the weekly newsletter.
+
+Then:
+
+1. Fork this repository and set your search in **`SCOPUS_QUERY`** in `pipeline/config.py` (Scopus advanced-search syntax, e.g. `TITLE-ABS-KEY ( ... )`).
+2. Replace the microplastics wording with your field's: `EMBEDDING_PROMPT` in `pipeline/config.py`, the `SYSTEM` prompts of `pipeline/labels.py` and `pipeline/newsletter.py`, and the text of `site/index.html`.
+3. Delete the committed data and models, export your search from Scopus and build them from scratch ([Full rebuild](#full-rebuild)), then fit the first topic model with `python pipeline/baseline.py`.
+4. From then on, `python pipeline/weekly.py` adds the new papers every week ([Weekly schedule](#weekly-schedule)).
 
 ## Usage
 
