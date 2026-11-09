@@ -1,4 +1,4 @@
-/* Microplastics Research Monitor: reads the JSON of site/data (written by pipeline/export_site.py and
+/* Marine Plastics Research Monitor: reads the JSON of site/data (written by pipeline/export_site.py and
    pipeline/newsletter.py) and draws the three tabs. No build step; ECharts comes from the CDN. */
 'use strict';
 
