@@ -19,13 +19,21 @@ layout of layout.py and the run records, and writes to site/data/:
   geo/basins.geojson    the ocean basins, dissolved from the 1-degree grid of ner.py with its MERGE_CLASSES
   geo/land.geojson      the land masses (Natural Earth 1:50m), simplified
 
+and site/share.png, the link preview (Open Graph image, 1200 x 630): the site's basin map with its title and numbers.
+
 The newsletter (site/data/newsletter/) is written by newsletter.py.
 """
 import base64
 import json
 
 import geopandas as gpd
+import matplotlib
+
+matplotlib.use('Agg')  # write files only, no window
+
+import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.colors import LinearSegmentedColormap, Normalize
 import pandas as pd
 import shapely
 from scipy.spatial import cKDTree
@@ -48,6 +56,9 @@ LAND_SHAPEFILE = config.MAPS_DIR / 'world map' / 'ne_50m_land.shp'
 BASIN_DISPLAY = {'Mediteranean': 'Mediterranean Sea', 'Equatorial Pac': 'Equatorial Pacific',
                  'Equatorial Atlant': 'Equatorial Atlantic', 'Equatorial Indian': 'Equatorial Indian',
                  'Arctic': 'Arctic Ocean', 'Antarctic': 'Southern Ocean (Antarctic)', 'Unknown': NO_BASIN}
+# Light-theme colours of site/style.css, for the link preview
+SHARE_COLORS = {'page': '#f9f9f7', 'surface': '#fcfcfb', 'ink': '#0b0b0b', 'ink-2': '#52514e', 'land': '#e1e0d9',
+                'ramp': ['#cde2fb', '#6da7ec', '#256abf', '#0d366b']}  # --seq-100, 300, 500, 700, as the basin map
 
 
 def write(name, obj):
@@ -236,6 +247,34 @@ def export_geo():
     write('geo/land.geojson', json.loads(land.to_json(drop_id=True)))
 
 
+def export_share_image(papers):
+    """site/share.png, the image shown when the site's link is shared: the papers per basin on the site's map."""
+    c = SHARE_COLORS
+    basins = gpd.read_file(OUT / 'geo/basins.geojson')
+    land = gpd.read_file(OUT / 'geo/land.geojson')
+    basins['n'] = basins['name'].map(papers['basin'].value_counts()).fillna(0)
+    cmap = LinearSegmentedColormap.from_list('seq', c['ramp'])
+    with plt.rc_context({'font.family': ['Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans']}):
+        fig = plt.figure(figsize=(12, 6.3), dpi=100, facecolor=c['page'])
+        fig.text(0.05, 0.9, 'Marine Plastics Research Monitor', fontsize=34, fontweight='bold', color=c['ink'],
+                 va='top')
+        topics = papers.loc[papers['fine'] != -1, 'fine'].nunique()
+        fig.text(0.05, 0.79, f"A living review of the microplastics literature, updated weekly  ·  "
+                             f"{len(papers):,} papers in {topics} topics", fontsize=17, color=c['ink-2'], va='top')
+        ax = fig.add_axes([0.03, 0.03, 0.94, 0.68])
+        basins.plot(ax=ax, column='n', cmap=cmap, norm=Normalize(0, basins['n'].max()), edgecolor=c['surface'],
+                    linewidth=0.6)
+        land.plot(ax=ax, color=c['land'], edgecolor=c['land'])
+        ax.set_xlim(-180, 180)
+        ax.set_ylim(-62, 84)
+        ax.set_aspect('equal')
+        ax.set_axis_off()
+        path = config.SITE_DIR / 'share.png'
+        fig.savefig(path, facecolor=c['page'], metadata={'Software': None})
+        plt.close(fig)
+    print(f"  {path.relative_to(config.ROOT)}: {path.stat().st_size / 1024:.0f} kB")
+
+
 def export_meta(papers, major, last_year):
     params = taxonomy.load_params(major)
     runs = pd.read_csv(taxonomy.RUNS) if taxonomy.RUNS.exists() else pd.DataFrame()
@@ -286,6 +325,7 @@ def main():
     export_map(papers, major)
     export_papers(papers)
     export_geo()
+    export_share_image(papers)
 
 
 if __name__ == '__main__':
