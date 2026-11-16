@@ -1,2 +1,3 @@
 date,version,n_new,n_unmatched,n_predicted,pool_share,expected_unmatched,rebaseline_due
 2026-11-08,v2.0,28,1,28,0.0357,0.0487,False
+2026-11-16,v2.0,60,5,88,0.0682,0.0487,False

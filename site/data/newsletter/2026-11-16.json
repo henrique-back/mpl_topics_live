@@ -1,0 +1,123 @@
+{
+ "date": "2026-11-16",
+ "title": "Most plastic stays on land and in rivers, and measurement methods shape the numbers",
+ "n_papers": 60,
+ "overview": "This week's 60 newly indexed papers keep coming back to one question: where does plastic actually end up, and how far can we trust the numbers? A European modelling study suggests that only a tiny share of plastic released into the environment reaches the sea. Most of it stays on land or in rivers. Separately, a global analysis of river studies finds that the way microplastics were measured explains reported levels better than where the samples were taken. New field surveys cover beaches in Tanzania, sediments in the East China Sea and the air over northern China. They also cover animals, including threatened Amazon stingrays and a Mediterranean seabird. Several studies look at microbes, both as possible plastic degraders and as communities living on plastic that carry antibiotic resistance genes. Satellite records hint that the colour of the ocean near the Great Pacific Garbage Patch may reflect microplastic build-up. Many results are preliminary, come from small samples or were obtained in the laboratory, and we say so below.",
+ "sections": [
+  {
+   "topic": 6,
+   "label": "Plastic breakdown, removal and recycling",
+   "heading": "Microbes from seeps and mangroves nibble at plastic",
+   "text": "Microbes from very different habitats showed some ability to attack plastic, but the evidence is early-stage. Bacteria from deep-sea cold seeps, places where oil-like compounds leak from the seabed, grew on two common plastics as their only food source and left cracks in plastic films ([cold-seep study](https://doi.org/10.1128/spectrum.01632-26)). In the laboratory, bacteria from Indonesian mangroves eroded plastic particles that had first been weakened by ultraviolet light, but the plastic's chemistry changed little. In a separate study, old nylon fishing nets were turned into antibacterial fabrics.",
+   "n_papers": 8
+  },
+  {
+   "topic": 7,
+   "label": "Microbes living on plastic debris",
+   "heading": "Plastic biofilms carry disease bacteria and resistance genes",
+   "text": "Plastic surfaces host their own microbial communities, called the 'plastisphere'. In the northern Adriatic Sea, two kinds of plastic were tested: microplastics collected at sea and polyethylene left to age for eight months in large experimental tanks. Both carried less varied microbes than the surrounding water. But they had more potentially disease-causing groups, mainly *Vibrio*, and more antibiotic resistance genes, some of them of medical concern ([Adriatic study](https://doi.org/10.1186/s40793-026-00940-5)). Two reviews agree that plastic biofilms may spread resistance genes, but stress that the ecological risks have not been confirmed at field scale.",
+   "n_papers": 3
+  },
+  {
+   "topic": 2,
+   "label": "Microplastics in coastal and open seas",
+   "heading": "Seabed and buried beach plastic, from China to Tanzania",
+   "text": "New surveys add to the map of plastic on the seabed and in beaches. In East China Sea sediments, microplastics averaged about 87 milligrams per kilogram, similar to levels reported worldwide, with more near the coast. Higher plastic levels went along with less varied sediment microbes, but the study shows a link, not proof that plastic caused it. On beaches in Dar es Salaam, Tanzania, particles were found down to 40 centimetres and became moderately less common with depth. This suggests buried plastic could later be stirred back up.",
+   "n_papers": 5
+  },
+  {
+   "topic": 17,
+   "label": "Freshwater animals and food chain transfer",
+   "heading": "Threatened stingrays and bottom-dwellers swallow plastic",
+   "text": "All twelve threatened stingrays examined from the Amazon estuary, caught by accident by small-scale fishers, had swallowed microplastics, mostly fibres ([stingray study](https://doi.org/10.1016/j.marpolbul.2026.120532)). The sample is small, but it gives a first baseline for these species. In a laboratory test of 11 small bottom-dwelling animal species, each swallowed only a limited size range from a realistic mix of plastics, mostly 5 to 28 micrometres, and passed much of it within a day. In Hong Kong mangroves, discarded plastic bags drew snails into spots where they may not play their normal ecological role.",
+   "n_papers": 3
+  },
+  {
+   "topic": 0,
+   "label": "Microplastics in rivers and reservoirs",
+   "heading": "Rivers hold plastic back, and methods shape reported levels",
+   "text": "Two studies challenge common assumptions. A Europe-wide model estimates that only about 0.1% of microplastics and 0.5% of larger plastic released into the environment flow out of river mouths. Most stays on land or is stored in rivers ([European rivers model](https://doi.org/10.1021/acs.est.6c03752)). A global analysis of 309 river studies found that measurement methods explained reported levels better than geography did. Particles identified by eye without chemical confirmation gave values 28 times higher ([global analysis](https://doi.org/10.1016/j.emcon.2026.100778)). Estuary studies found that tides and waves trap particles, while floods flush them out to sea.",
+   "n_papers": 7
+  },
+  {
+   "topic": 3,
+   "label": "Toxic effects on marine organisms",
+   "heading": "Plastic plus a plastic chemical stresses a crustacean",
+   "text": "This week's laboratory work focused on invertebrates. A small shrimp-like crustacean from the Caspian Sea was exposed for 30 days to polystyrene particles combined with bisphenol A, a chemical used in plastics. The mix caused stronger stress, hormone and tissue-damage responses than most single exposures, though the authors note that how the two interact is unproven. In oyster immune cells, particles of a biodegradable plastic were passed between cell types, and the pattern depended on the dose.",
+   "n_papers": 3
+  },
+  {
+   "topic": 13,
+   "label": "Plastic harm to seabirds, turtles and mammals",
+   "heading": "Nine in ten stranded Mediterranean shearwaters had eaten plastic",
+   "text": "Researchers examined 31 Yelkouan shearwaters found dead on Italy's Tyrrhenian coast, the core breeding area of this Mediterranean seabird, and 28 had plastic in their guts. They averaged about 20 items each, above the levels considered a concern for shearwaters. Phthalates, chemicals used to soften plastic, were found in their tissues, but levels did not track the amount of plastic eaten ([shearwater study](https://doi.org/10.1016/j.envpol.2026.129427)). Reviews on whales, dolphins and coastal waterbirds warn that reliable biological signs of harm are still scarce.",
+   "n_papers": 3
+  },
+  {
+   "topic": 9,
+   "label": "Detecting debris with satellites and drones",
+   "heading": "Ocean colour may reveal the Garbage Patch's microplastics",
+   "text": "Twenty years of satellite ocean-colour records show the sea near the Great Pacific Garbage Patch getting brighter in blue and green light. Modelling suggests this pattern matches what suspended microplastics would produce, and is more than four times more likely with them than from natural change alone ([ocean colour study](https://doi.org/10.1038/s43247-026-04071-0)). A study in the Indian and Pacific oceans urges caution: once tested rigorously, satellite chlorophyll measurements could not reliably locate microplastic hotspots.",
+   "n_papers": 4
+  },
+  {
+   "topic": 21,
+   "label": "Urban sources: runoff, air and wastewater",
+   "heading": "Cities shower microplastics from the air",
+   "text": "A year of measurements on the North China Plain found microplastics settling from the air in Beijing at a median of about 35,000 particles per square metre per day. That is roughly five times the rate at a farming site. Small fragments dominated. The authors' rough estimate is about 6,000 tonnes a year falling on urban land and 17,000 tonnes on cropland in the region. A short preliminary study at a coastal suburb in Malaysia also found airborne particles in every sample.",
+   "n_papers": 3
+  },
+  {
+   "topic": 8,
+   "label": "Pollutants carried by microplastics",
+   "heading": "How trapped particles move and plastic alters seawater chemistry",
+   "text": "Laboratory studies looked at how microplastics move and react with their surroundings. Particles trapped in coastal sediments were stirred back into the water more easily in fresh water than in salty water, depending on sediment type and water flow. Substances that dissolve from aging plastic changed sunlight-driven bromine chemistry in seawater, boosting it at low amounts and suppressing it at high ones. A review of so-called 'forever chemicals' (per- and polyfluoroalkyl substances) reports that one plastic released about 77% of such a chemical it had absorbed under simulated fish digestion.",
+   "n_papers": 4
+  },
+  {
+   "topic": 4,
+   "label": "Plastic waste policy and public action",
+   "heading": "A few brands dominate traceable beach litter",
+   "text": "On a small uninhabited island in the Colombian Caribbean, litter that could be traced to a brand was highly concentrated. Five producers accounted for about two-thirds of the traceable items, and a single malt-drink brand for 27%, although most items could not be traced ([producer responsibility study](https://doi.org/10.1017/plc.2026.10071)). The authors offer the method as a tool for policies that make manufacturers responsible for their waste. A Caribbean perspective points to missing waste data, and a survey of 511 Indian nursing students found that concern about plastic did not lead to using less of it.",
+   "n_papers": 7
+  }
+ ],
+ "also": "Elsewhere this week, nearly all commercial fish sampled from Pulicat Lake, India, contained microplastics. Plankton samples from Djibouti suggest whale sharks there may filter around 40,000 particles a day, and that sampling only seawater may underestimate how much filter-feeders take in. Plastic sachets made up much of the recent litter on East Java beaches. Farm mulch films labelled 'biodegradable' were still there after two years in soil, though they disappeared in seawater within three months. A chemical fingerprinting method helped trace spilled plastic pellets to specific shipping accidents. A UK model found that broad restrictions on microplastics deliberately added to products would cut exposure the most. Groundwater in Saudi Arabia held only trace levels. Clams in Canada's Saint Lawrence estuary carried nanoplastics and a plastic-softening chemical.",
+ "n_also": 10,
+ "cited": [
+  {
+   "doi": "10.1016/j.emcon.2026.100778",
+   "title": "Methodological heterogeneity outweighs geography in shaping reported riverine microplastic concentrations: A global meta-analysis and implications for monitoring"
+  },
+  {
+   "doi": "10.1016/j.envpol.2026.129427",
+   "title": "Does marine litter ingestion represent an underestimated pressure on Yelkouan shearwaters? Insights from GIT marine-litter and tissue PAE analyses in the core breeding range"
+  },
+  {
+   "doi": "10.1016/j.marpolbul.2026.120532",
+   "title": "Microplastic ingestion is ubiquitous in threatened stingrays from the Amazon estuary"
+  },
+  {
+   "doi": "10.1017/plc.2026.10071",
+   "title": "From producer attribution to governance: Quantifying responsibility concentration in marine plastic pollution"
+  },
+  {
+   "doi": "10.1021/acs.est.6c03752",
+   "title": "River Plastic Retention and Export across Europe"
+  },
+  {
+   "doi": "10.1038/s43247-026-04071-0",
+   "title": "The ocean’s color is changing near the Great Pacific Garbage Patch"
+  },
+  {
+   "doi": "10.1128/spectrum.01632-26",
+   "title": "Diversity and distribution of potential polyethylene terephthalate and polypropylene plastic-degrading bacteria communities in deep-sea cold-seep ecosystems"
+  },
+  {
+   "doi": "10.1186/s40793-026-00940-5",
+   "title": "Microplastics host distinct microbial communities enriched in potentially pathogenic taxa and antibiotic resistance genes: evidence from environmental and experimentally aged plastics in a coastal marine environment"
+  }
+ ],
+ "model": "claude-opus-5-5",
+ "taxonomy": "v2.0"
+}
