@@ -1,0 +1,109 @@
+{
+ "date": "2026-11-24",
+ "title": "Where plastic travels, and what it carries along the way",
+ "n_papers": 53,
+ "overview": "This week's 53 new papers follow plastic from inland rivers to the deep ocean and look at what it carries with it. Satellite-tracked bottles in North American rivers show that much of the plastic reaching the sea starts far inland. Deep-water surveys in the South China Sea and the western Pacific found microplastics at every depth sampled, down to 5,650 metres. Several studies suggest that plastic also works as a chemical carrier. In the laboratory, weathered fragments soaked up cadmium and raised its levels in seahorse livers. Plastics collected from the North Pacific released chemicals that were active in cell tests. In surveys of seafood, particles turned up in mussels, cockles, sea urchins and market fish. Several authors warn that measurement choices and unconfirmed particles limit firm conclusions. Artificial intelligence tools for spotting litter keep improving, and one is now usable from a web browser. On policy, studies from Vietnam, Colombia and Brazil point to lost fishing gear and weak governance as obstacles.",
+ "sections": [
+  {
+   "topic": 3,
+   "label": "Toxic effects on marine organisms",
+   "heading": "Aged plastics make metal pollution worse for seahorses",
+   "text": "This week's laboratory studies look at how microplastics combine with other stresses. Polyethylene fragments aged under ultraviolet light soaked up more cadmium, a toxic metal. Big-belly seahorses exposed to this mixture for four days had up to 1.49 times more cadmium in their livers than seahorses exposed to cadmium alone. They also showed signs of oxidative stress (cell damage from reactive oxygen) and of cell death ([seahorse study](https://doi.org/10.1016/j.cbpc.2026.110748)). In larvae of the loach, a freshwater fish, polystyrene killed 43% of the larvae over 28 days. A diet enriched with taurine reversed this harm, even though the larvae took up just as many particles. In a 13-day test on a large marine diatom (a single-celled alga), particles stuck to its shell, but most measured effects were not significant.",
+   "n_papers": 4
+  },
+  {
+   "topic": 1,
+   "label": "Microplastics eaten by marine fish",
+   "heading": "Particles in shellfish and sea urchins, with caveats",
+   "text": "Field surveys found particles in nearly every animal they sampled. In a Scottish sea loch, all 115 cockles and 182 mussels contained microplastics. Mussels carrying more particles per gram grew more slowly, but the authors stress that this observed link cannot prove that plastic caused it. Young mullet in a Japanese estuary held only small particles, 24 to 94 micrometres across, even though larger ones were common in the surrounding sediment. In Indonesia, the edible gonads of sea urchins carried about half as many suspected particles as their guts ([sea urchin study](https://doi.org/10.21608/ejabf.2026.537531)). The authors call their intake estimates an upper limit because most particles were not chemically confirmed. A study from India reports biodegradable microplastics in market fish, alongside conventional ones.",
+   "n_papers": 4
+  },
+  {
+   "topic": 9,
+   "label": "Detecting debris with satellites and drones",
+   "heading": "Artificial intelligence makes litter counting easier",
+   "text": "Five papers use artificial intelligence to find litter. The most practical is BeachLISA, a web-based tool that analyses beach photos from drones or fixed cameras in a browser, with no specialist skills or equipment needed. Across 2,987 images of a Japanese beach, drops in the amount of detected litter matched dates of recorded cleanups ([BeachLISA](https://doi.org/10.1016/j.marpolbul.2026.120553)). Two studies tested underwater detectors. A more careful way of training one model improved debris detection in shallow water by about 8 to 11 percentage points. A comparison of two image-recognition models showed a trade-off: the more accurate one was slower. Two broader reviews survey the field but report no new data.",
+   "n_papers": 5
+  },
+  {
+   "topic": 0,
+   "label": "Microplastics in rivers and reservoirs",
+   "heading": "Plastic reaching the sea often starts far inland",
+   "text": "Plastic bottles fitted with satellite trackers were followed in 30 river stretches across the United States and Canada. On average they moved 6 kilometres in about three months, travelling further in urban areas and less in forested ones. A model built from the data suggests that half of the bottles reaching the ocean or the Great Lakes start more than 15.7 kilometres inland ([tracked bottles](https://doi.org/10.1021/acsestwater.6c00604)). In Osaka, Japan, tides pushed bay water upstream and created hotspots of up to 492 particles per cubic metre. In experimental streams and gravel columns, water plants and riverbeds held particles back for a time. How much they held depended on plastic type and density. New baseline surveys come from Argentina's Negro River and Pakistan's Indus basin.",
+   "n_papers": 7
+  },
+  {
+   "topic": 2,
+   "label": "Microplastics in coastal and open seas",
+   "heading": "Microplastics found throughout the deep water column",
+   "text": "Two studies followed microplastics far below the surface. Off Hainan Island in the South China Sea, particles turned up at every depth sampled down to 1,700 metres, at broadly similar average levels near the surface and at depth ([South China Sea profile](https://doi.org/10.1016/j.marpolbul.2026.120566)). The authors say their machine-learning analyses were exploratory only. In the western Pacific's Pigafetta Basin, particles were found down to 5,650 metres and in seabed sediments, and their numbers generally fell with depth. Closer to shore, concentrations along Iran's Caspian coast fell with distance from land. In a Spanish coastal lagoon, sediments still held fine plastic after a severe flood, even though visible litter on the shore had dropped after cleanups.",
+   "n_papers": 6
+  },
+  {
+   "topic": 17,
+   "label": "Freshwater animals and food chain transfer",
+   "heading": "Birds and frogs on urban waterways",
+   "text": "Studies of animals living where land meets water show how far particles reach. In Coimbra, Portugal, 43% of droppings from six riverside bird species contained suspected human-made particles, most often from song thrushes. However, only about one in nine suspected particles was confirmed as plastic, and the level of urbanisation made no measurable difference. In urban lakes in Croatia, suspected microplastics were found in most of the tadpoles and young frogs examined. The authors also report possible particles in the brains of young frogs, a preliminary finding based on identification by eye. A review suggests that bivalves may grind plastics into smaller fragments and carry them down to the seabed.",
+   "n_papers": 3
+  },
+  {
+   "topic": 12,
+   "label": "Microplastics in soil and farmland",
+   "heading": "Antibiotic resistance in farm soils, and coastal landfills",
+   "text": "A meta-analysis pooled 1,046 sets of observations from Chinese farmland. Where microplastics were present, soils had about 50% more antibiotic resistance genes and higher rates of gene exchange between bacteria, though the effects on organism survival were not significant. A systematic review flags coastal landfills as a neglected source of marine microplastics. Only seven of 211 studies gave measured data. Scaling up the results from a single site to roughly 100,000 coastal landfills worldwide gave hypothetical totals of about 15,000 to 730,000 tonnes a year ([coastal landfills](https://doi.org/10.3390/w18212737)). The authors stress that these are rough scenarios, not estimates of actual emissions.",
+   "n_papers": 3
+  },
+  {
+   "topic": 4,
+   "label": "Plastic waste policy and public action",
+   "heading": "Lost fishing gear and fragile governance",
+   "text": "A survey of 525 fishers in Khanh Hoa, Vietnam, found that gillnet fisheries throw away the most nets, ropes and buoys. Fishing method, trip costs and boat length together explained about half the differences in how much gear was discarded. A separate review of Vietnam's options ranks three measures highest: making producers responsible for their packaging waste, sorting waste where it is produced, and reuse systems. A preliminary report from Tumaco, Colombia, describes governance of plastic pollution that is fragmented and depends on civil society groups and a few key individuals. A study of Brazil's role in talks on a global plastics treaty finds the country balancing its green-economy agenda against economic interests.",
+   "n_papers": 5
+  },
+  {
+   "topic": 8,
+   "label": "Pollutants carried by microplastics",
+   "heading": "Plastics both soak up and release chemicals",
+   "text": "Researchers compared plastics collected from the North Pacific with new versions of the same products, using cell-based laboratory tests. Durable outdoor products were more toxic when new, while food packaging tended to become more toxic after weathering at sea ([weathered plastics](https://doi.org/10.1021/acs.est.6c11308)). The chemicals the team identified explained anywhere from under 0.1% to 98% of the effects seen. In five Polish reservoirs, sediment levels of plastic additives, including phthalates (softeners) and bisphenol A, rose with the share of urban and industrial land around them. Some of these compounds may come from sources other than plastic. A laboratory study found that water flow and sediment control how PVC microplastics release such additives in dammed rivers.",
+   "n_papers": 4
+  }
+ ],
+ "also": "Among the remaining papers, researchers tested water soaked with litter collected from beaches in the Baltic, the Atlantic and the Mediterranean. Liquid from cigarette butts consistently did the most harm to developing sea urchin embryos, while bottles and caps did the least ([litter toxicity](https://doi.org/10.1007/s00244-026-01225-1)). On Brazil's Amazon coast, beaches held 2,368 litter items, mostly bottles linked to products from Mauritania and China. Of the items that could be dated, 75% had been made less than two years before collection, which suggests ships as a possible source. Other papers present a very small artificial intelligence model for counting microplastics in flowing water. Another reports that nanoplastics disrupt how a marine bacterium processes a sulfur compound. A global hotspot map built with machine learning worked poorly in regions unlike those it was trained on.",
+ "n_also": 12,
+ "cited": [
+  {
+   "doi": "10.1007/s00244-026-01225-1",
+   "title": "Differential Ecotoxicity of Marine Litter Components: Identification of Typologies with Higher Hazard Potential"
+  },
+  {
+   "doi": "10.1016/j.cbpc.2026.110748",
+   "title": "Ultraviolet-aged microplastics increase cadmium bioaccumulation and trigger oxidative stress-mediated toxicity in the big-belly seahorse, Hippocampus abdominalis"
+  },
+  {
+   "doi": "10.1016/j.marpolbul.2026.120553",
+   "title": "BeachLISA: Web-based system for semantic segmentation and analysis of beach-litter images"
+  },
+  {
+   "doi": "10.1016/j.marpolbul.2026.120566",
+   "title": "Depth-resolved microplastic distribution and environmental associations in the epipelagic-to-bathypelagic waters off southeastern Hainan Island, South China Sea"
+  },
+  {
+   "doi": "10.1021/acs.est.6c11308",
+   "title": "Source or Sink: Bioanalytical and Chemical Profiling of New and Field-Weathered Plastics"
+  },
+  {
+   "doi": "10.1021/acsestwater.6c00604",
+   "title": "GPS-Tracked Bottles in North American Rivers Show Marine Plastic Pollution Can Originate from Far Upstream"
+  },
+  {
+   "doi": "10.21608/ejabf.2026.537531",
+   "title": "Tissue-Specific Occurrence of Microplastics in the Edible Sea Urchin Tripneustes gratilla from Kondang Merak Beach, East Java, Indonesia"
+  },
+  {
+   "doi": "10.3390/w18212737",
+   "title": "Coastal Landfills as Emerging and Poorly Quantified Sources of Marine Microplastics: Evidence Gaps, Flux Scenarios and Research Priorities"
+  }
+ ],
+ "model": "claude-opus-5-5",
+ "taxonomy": "v2.0"
+}
